@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+	"text/template"
 
 	"github.com/brotherlogic/goserver"
 	"golang.org/x/net/context"
@@ -51,6 +53,25 @@ func (s *Server) GetState() []*pbg.State {
 	}
 }
 
+func handler(w http.ResponseWriter, r *http.Request) {
+	t := template.New("page")
+	t, _ = t.Parse(`</head>
+	<body>
+		<div id="container">	
+			<div class="artwork"></div>
+			<section id="main">
+				<img class="art_image" src="https://img.discogs.com/VsImbPqwzP7fNEM_Ws_y7Lkbh7Q=/fit-in/600x598/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-10604586-1500801461-4954.jpeg.jpg" width="500" height="500">
+				<div class="text">
+					<div class="artist">Bernard Estardy</div>
+					<div class="album">Piano & Orgues</div>
+				</div>		
+			</section>		
+		</div>
+	</body>
+	</html>`)
+	t.Execute(w, nil)
+}
+
 func main() {
 	server := Init()
 	server.PrepServer()
@@ -60,6 +81,9 @@ func main() {
 	if err != nil {
 		return
 	}
+
+	http.HandleFunc("/", handler)
+	go http.ListenAndServe(":8080", nil)
 
 	fmt.Printf("%v", server.Serve())
 }
