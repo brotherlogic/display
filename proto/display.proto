@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package display;
+
+option go_package = "github.com/brotherlogic/display/proto";
+
+message ShowRequest {
+  string url = 1;
+}
+
+message ShowResponse {}
+
+service DisplayService {
+  rpc Show(ShowRequest) returns (ShowResponse) {};
+}
