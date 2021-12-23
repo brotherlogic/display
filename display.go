@@ -53,9 +53,9 @@ func (s *Server) GetState() []*pbg.State {
 	}
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
+func (s *Server) handler(w http.ResponseWriter, r *http.Request) {
 	t := template.New("page")
-	t, _ = t.Parse(`</head>
+	t, err := t.Parse(`</head>
 	<body>
 		<div id="container">	
 			<div class="artwork"></div>
@@ -69,6 +69,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		</div>
 	</body>
 	</html>`)
+	s.Log(fmt.Sprintf("PARSED: %v", err))
 	t.Execute(w, nil)
 }
 
@@ -82,7 +83,7 @@ func main() {
 		return
 	}
 
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/", server.handler)
 	go http.ListenAndServe(":8080", nil)
 
 	fmt.Printf("%v", server.Serve())
