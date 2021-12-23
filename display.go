@@ -84,7 +84,10 @@ func main() {
 	}
 
 	http.HandleFunc("/", server.handler)
-	go http.ListenAndServe(":8080", nil)
+	go func() {
+		err := http.ListenAndServe(":8080", nil)
+		server.Log(fmt.Sprintf("Unable to server: %v", err))
+	}()
 
 	fmt.Printf("%v", server.Serve())
 }
