@@ -55,7 +55,7 @@ func (s *Server) GetState() []*pbg.State {
 
 func (s *Server) handler(w http.ResponseWriter, r *http.Request) {
 	t := template.New("page")
-	t, err := t.Parse(`</head>
+	t, err := t.Parse(`<html>
 	<body>
 		<div id="container">	
 			<div class="artwork"></div>
