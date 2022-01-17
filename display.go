@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+	"os"
 	"text/template"
 
 	"github.com/brotherlogic/goserver"
@@ -53,7 +53,7 @@ func (s *Server) GetState() []*pbg.State {
 	}
 }
 
-func (s *Server) handler(w http.ResponseWriter, r *http.Request) {
+func (s *Server) handler(ctx context.Context) {
 	t := template.New("page")
 	t, err := t.Parse(`<html>
 	<body>
@@ -70,7 +70,13 @@ func (s *Server) handler(w http.ResponseWriter, r *http.Request) {
 	</body>
 	</html>`)
 	s.Log(fmt.Sprintf("PARSED: %v", err))
-	t.Execute(w, nil)
+
+	os.MkdirAll("/media/scratch/display/", 0777)
+	os.Create("/media/scratch/display/display.html")
+	f, err := os.OpenFile("/media/scratch/display/display.html", os.O_WRONLY, 0777)
+	defer f.Close()
+
+	t.Execute(f, nil)
 }
 
 func main() {
@@ -83,11 +89,7 @@ func main() {
 		return
 	}
 
-	http.HandleFunc("/", server.handler)
-	go func() {
-		err := http.ListenAndServe(":8080", nil)
-		server.Log(fmt.Sprintf("Unable to server: %v", err))
-	}()
+	server.handler(context.Background())
 
 	fmt.Printf("%v", server.Serve())
 }
