@@ -10,6 +10,7 @@ import (
 	"google.golang.org/grpc"
 
 	pb "github.com/brotherlogic/display/proto"
+	fcpb "github.com/brotherlogic/filecopier/proto"
 	pbg "github.com/brotherlogic/goserver/proto"
 )
 
@@ -77,6 +78,15 @@ func (s *Server) handler(ctx context.Context) {
 	defer f.Close()
 
 	t.Execute(f, nil)
+
+	conn, err := s.FDialServer(ctx, "filecopier")
+	fc := fcpb.NewFileCopierServiceClient(conn)
+	fc.Copy(ctx, &fcpb.CopyRequest{
+		InputServer:  s.Registry.Identifier,
+		InputFile:    "/media/scratch/display/display.html",
+		OutputServer: "rdisplay",
+		OutputFile:   "/home/simon/index.html",
+	})
 }
 
 func main() {
