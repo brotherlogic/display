@@ -57,7 +57,8 @@ func (s *Server) GetState() []*pbg.State {
 func (s *Server) handler(ctx context.Context) {
 	t := template.New("page")
 	t, err := t.Parse(`<html>
-	<body>
+	<meta http-equiv="refresh" content="60">
+      <body>
 		<div id="container">	
 			<div class="artwork"></div>
 			<section id="main">
