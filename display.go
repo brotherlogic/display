@@ -4,16 +4,14 @@ import (
 	"fmt"
 	"os"
 	"text/template"
-	"time"
 
 	"github.com/brotherlogic/goserver"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	pb "github.com/brotherlogic/display/proto"
 	fcpb "github.com/brotherlogic/filecopier/proto"
 	pbg "github.com/brotherlogic/goserver/proto"
-	"github.com/brotherlogic/goserver/utils"
+	rcpb "github.com/brotherlogic/recordcollection/proto"
 	pbrg "github.com/brotherlogic/recordgetter/proto"
 )
 
@@ -32,7 +30,7 @@ func Init() *Server {
 
 // DoRegister does RPC registration
 func (s *Server) DoRegister(server *grpc.Server) {
-	pb.RegisterDisplayServiceServer(server, s)
+	rcpb.RegisterClientUpdateServiceServer(server, s)
 }
 
 // ReportHealth alerts if we're not healthy
@@ -124,13 +122,6 @@ func main() {
 	if err != nil {
 		return
 	}
-
-	go func() {
-		ctx, cancel := utils.ManualContext("display-loop", time.Minute)
-		server.buildPage(ctx)
-		cancel()
-		time.Sleep(time.Hour)
-	}()
 
 	fmt.Printf("%v", server.Serve())
 }
