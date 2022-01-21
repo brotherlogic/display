@@ -251,6 +251,7 @@ func buildStyle() {
 			box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.7);
 		}`
 
+	os.Create("/media/scratch/display/style.css")
 	f, _ := os.OpenFile("/media/scratch/display/style.css", os.O_WRONLY, 0777)
 	defer f.Close()
 
@@ -608,6 +609,7 @@ func buildCssNorm() {
 		display: none;
 	  }`
 
+	os.Create("/media/scratch/display/normalize.css")
 	f, _ := os.OpenFile("/media/scratch/display/normalize.css", os.O_WRONLY, 0777)
 	defer f.Close()
 
