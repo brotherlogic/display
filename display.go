@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"text/template"
+	"time"
 
 	"github.com/brotherlogic/goserver"
 	"golang.org/x/net/context"
@@ -12,6 +13,7 @@ import (
 	pb "github.com/brotherlogic/display/proto"
 	fcpb "github.com/brotherlogic/filecopier/proto"
 	pbg "github.com/brotherlogic/goserver/proto"
+	"github.com/brotherlogic/goserver/utils"
 	pbrg "github.com/brotherlogic/recordgetter/proto"
 )
 
@@ -118,7 +120,12 @@ func main() {
 		return
 	}
 
-	server.buildPage(context.Background())
+	go func() {
+		ctx, cancel := utils.ManualContext("display-loop", time.Minute)
+		server.buildPage(ctx)
+		cancel()
+		time.Sleep(time.Hour)
+	}()
 
 	fmt.Printf("%v", server.Serve())
 }
