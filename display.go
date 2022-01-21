@@ -104,6 +104,8 @@ func (s *Server) handler(ctx context.Context, title, artist, image string) {
 		Title:  title,
 		Artist: artist,
 		Image:  image})
+	buildStyle()
+	buildCssNorm()
 
 	conn, err := s.FDialServer(ctx, "filecopier")
 	fc := fcpb.NewFileCopierServiceClient(conn)
