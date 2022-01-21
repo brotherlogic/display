@@ -68,13 +68,13 @@ func (s *Server) buildPage(ctx context.Context) {
 
 		r, err := client.GetRecord(ctx, &pbrg.GetRecordRequest{Refresh: true})
 		if err == nil {
-			s.handler(ctx, r.GetRecord().GetRelease().GetTitle())
+			s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), r.GetRecord().GetRelease().GetTitle())
 		}
 
 	}
 }
 
-func (s *Server) handler(ctx context.Context, title string) {
+func (s *Server) handler(ctx context.Context, title, artist string) {
 	t := template.New("page")
 	t, err := t.Parse(`<html>
 	<meta http-equiv="refresh" content="60">
