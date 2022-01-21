@@ -58,7 +58,8 @@ func (s *Server) GetState() []*pbg.State {
 }
 
 type temp struct {
-	Title string
+	Title  string
+	Artist string
 }
 
 func (s *Server) buildPage(ctx context.Context) {
@@ -68,7 +69,7 @@ func (s *Server) buildPage(ctx context.Context) {
 
 		r, err := client.GetRecord(ctx, &pbrg.GetRecordRequest{Refresh: true})
 		if err == nil {
-			s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), r.GetRecord().GetRelease().GetTitle())
+			s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), r.GetRecord().GetRelease().GetArtists()[0].GetName())
 		}
 
 	}
@@ -84,7 +85,7 @@ func (s *Server) handler(ctx context.Context, title, artist string) {
 			<section id="main">
 				<img class="art_image" src="https://img.discogs.com/VsImbPqwzP7fNEM_Ws_y7Lkbh7Q=/fit-in/600x598/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-10604586-1500801461-4954.jpeg.jpg" width="500" height="500">
 				<div class="text">
-					<div class="artist">Atrio</div>
+					<div class="artist">{{.Artist}}</div>
 					<div class="album">{{.Title}}</div>
 				</div>		
 			</section>		
@@ -98,7 +99,9 @@ func (s *Server) handler(ctx context.Context, title, artist string) {
 	f, err := os.OpenFile("/media/scratch/display/display.html", os.O_WRONLY, 0777)
 	defer f.Close()
 
-	t.Execute(f, &temp{Title: title})
+	t.Execute(f, &temp{
+		Title:  title,
+		Artist: artist})
 
 	conn, err := s.FDialServer(ctx, "filecopier")
 	fc := fcpb.NewFileCopierServiceClient(conn)
