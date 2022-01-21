@@ -77,6 +77,8 @@ func (s *Server) buildPage(ctx context.Context) {
 func (s *Server) handler(ctx context.Context, title, artist, image string) {
 	t := template.New("page")
 	t, err := t.Parse(`<html>
+	<link rel="stylesheet" href="normalize.css">
+	<link rel="stylesheet" href="style.css">
 	<meta http-equiv="refresh" content="60">
       <body>
 		<div id="container">	
@@ -110,6 +112,18 @@ func (s *Server) handler(ctx context.Context, title, artist, image string) {
 		InputFile:    "/media/scratch/display/display.html",
 		OutputServer: "rdisplay",
 		OutputFile:   "/home/simon/index.html",
+	})
+	fc.Copy(ctx, &fcpb.CopyRequest{
+		InputServer:  s.Registry.Identifier,
+		InputFile:    "/media/scratch/display/style.css",
+		OutputServer: "rdisplay",
+		OutputFile:   "/home/simon/style.css",
+	})
+	fc.Copy(ctx, &fcpb.CopyRequest{
+		InputServer:  s.Registry.Identifier,
+		InputFile:    "/media/scratch/display/normalize.css",
+		OutputServer: "rdisplay",
+		OutputFile:   "/home/simon/normalize.css",
 	})
 }
 
