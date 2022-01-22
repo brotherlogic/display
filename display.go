@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"text/template"
 
 	"github.com/brotherlogic/goserver"
@@ -88,7 +89,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image string) {
 		<div id="container">	
 			<div class="artwork"></div>
 			<section id="main">
-				<img class="art_image" src="{{.Image}}" width="500" height="500">
+				<img class="art_image" src="image.jpeg" width="500" height="500">
 				<div class="text">
 					<div class="artist">{{.Artist}}</div>
 					<div class="album">{{.Title}}</div>
@@ -111,7 +112,8 @@ func (s *Server) handler(ctx context.Context, title, artist, image string) {
 	buildStyle()
 	buildCssNorm()
 
-	s.Log("Built everything")
+	err = exec.Command("curl", image, "-o", "/media/scratch/display/image.jpeg").Run()
+	s.Log(fmt.Sprintf("Built everything: %v", err))
 
 	conn, _ := s.FDialServer(ctx, "filecopier")
 	defer conn.Close()
@@ -134,6 +136,12 @@ func (s *Server) handler(ctx context.Context, title, artist, image string) {
 		InputFile:    "/media/scratch/display/normalize.css",
 		OutputServer: "rdisplay",
 		OutputFile:   "/home/simon/normalize.css",
+	})
+	fc.Copy(ctx, &fcpb.CopyRequest{
+		InputServer:  s.Registry.Identifier,
+		InputFile:    "/media/scratch/display/image.jpeg",
+		OutputServer: "rdisplay",
+		OutputFile:   "/home/simon/image.jpg",
 	})
 }
 
