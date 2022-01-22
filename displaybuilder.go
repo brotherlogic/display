@@ -5,78 +5,78 @@ import "os"
 func buildStyle() {
 	data := `@font-face {
 			font-family: 'proxima-nova';
-			src: url('../wp-content/themes/chorus/fonts/proximanova-regular.woff') format('woff'),
-				 url('../wp-content/themes/chorus/fonts/proximanova-regular.woff2') format('woff2');
+			src: url('proximanova-regular.woff') format('woff'),
+				 url('proximanova-regular.woff2') format('woff2');
 			font-weight: normal;
 			font-style: normal;
 		}
 		
 		@font-face {
 			font-family: 'proxima-nova';
-			src: url('../wp-content/themes/chorus/fonts/proximanova-italic.woff') format('woff'),
-				 url('../wp-content/themes/chorus/fonts/proximanova-italic.woff2') format('woff2');
+			src: url('proximanova-italic.woff') format('woff'),
+				 url('proximanova-italic.woff2') format('woff2');
 			font-weight: normal;
 			font-style: italic;
 		}
 		
 		@font-face {
 			font-family: 'proxima-nova';
-			src: url('../wp-content/themes/chorus/fonts/proximanova-bold.woff') format('woff'),
-				 url('../wp-content/themes/chorus/fonts/proximanova-bold.woff2') format('woff2');
+			src: url('proximanova-bold.woff') format('woff'),
+				 url('proximanova-bold.woff2') format('woff2');
 			font-weight: bold;
 			font-style: normal;
 		}
 		
 		@font-face {
 			font-family: 'proxima-nova';
-			src: url('../wp-content/themes/chorus/fonts/proximanova-boldit.woff') format('woff'),
-				 url('../wp-content/themes/chorus/fonts/proximanova-boldit.woff2') format('woff2');
+			src: url('proximanova-boldit.woff') format('woff'),
+				 url('proximanova-boldit.woff2') format('woff2');
 			font-weight: bold;
 			font-style: italic;
 		}
 		
 		@font-face {
 			font-family: 'proxima-nova';
-			src: url('../wp-content/themes/chorus/fonts/proximanova-light.woff') format('woff'),
-				 url('../wp-content/themes/chorus/fonts/proximanova-light.woff2') format('woff2');
+			src: url('proximanova-light.woff') format('woff'),
+				 url('proximanova-light.woff2') format('woff2');
 			font-weight: 300;
 		}
 		
 		@font-face {
 			font-family: 'myriad-pro';
-			src: url('../wp-content/themes/chorus/fonts/mp.woff') format('woff'),
-				 url('../wp-content/themes/chorus/fonts/mp.woff2') format('woff2');
+			src: url('mp.woff') format('woff'),
+				 url('mp.woff2') format('woff2');
 			font-weight: normal;
 			font-style: normal;
 		}
 		
 		@font-face {
 			font-family: 'myriad-pro';
-			src: url('../wp-content/themes/chorus/fonts/mp-italic.woff') format('woff'),
-				 url('../wp-content/themes/chorus/fonts/mp-italic.woff2') format('woff2');
+			src: url('mp-italic.woff') format('woff'),
+				 url('mp-italic.woff2') format('woff2');
 			font-weight: normal;
 			font-style: italic;
 		}
 		
 		@font-face {
 			font-family: 'myriad-pro';
-			src: url('../wp-content/themes/chorus/fonts/mp-bold.woff') format('woff'),
-				 url('../wp-content/themes/chorus/fonts/mp-bold.woff2') format('woff2');
+			src: url('mp-bold.woff') format('woff'),
+				 url('mp-bold.woff2') format('woff2');
 			font-weight: bold;
 			font-style: normal;
 		}
 		
 		@font-face {
 			font-family: 'myriad-pro';
-			src: url('../wp-content/themes/chorus/fonts/mp-boldit.woff') format('woff');
+			src: url('mp-boldit.woff') format('woff');
 			font-weight: bold;
 			font-style: italic;
 		}
 		
 		@font-face {
 			font-family: 'myriad-pro';
-			src: url('../wp-content/themes/chorus/fonts/mp-semibold.woff') format('woff'),
-				 url('../wp-content/themes/chorus/fonts/mp-semibold.woff2') format('woff2');
+			src: url('mp-semibold.woff') format('woff'),
+				 url('mp-semibold.woff2') format('woff2');
 			font-weight: 600;
 			font-style: normal;
 		}
