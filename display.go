@@ -65,6 +65,7 @@ type temp struct {
 func (s *Server) buildPage(ctx context.Context) {
 	conn, err := s.FDialServer(ctx, "recordgetter")
 	if err == nil {
+		defer conn.Close()
 		client := pbrg.NewRecordGetterClient(conn)
 
 		r, err := client.GetRecord(ctx, &pbrg.GetRecordRequest{Refresh: true})
@@ -100,7 +101,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image string) {
 
 	os.MkdirAll("/media/scratch/display/", 0777)
 	os.Create("/media/scratch/display/display.html")
-	f, err := os.OpenFile("/media/scratch/display/display.html", os.O_WRONLY, 0777)
+	f, _ := os.OpenFile("/media/scratch/display/display.html", os.O_WRONLY, 0777)
 	defer f.Close()
 
 	t.Execute(f, &temp{
@@ -112,7 +113,9 @@ func (s *Server) handler(ctx context.Context, title, artist, image string) {
 
 	s.Log("Built everything")
 
-	conn, err := s.FDialServer(ctx, "filecopier")
+	conn, _ := s.FDialServer(ctx, "filecopier")
+	defer conn.Close()
+
 	fc := fcpb.NewFileCopierServiceClient(conn)
 	fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
