@@ -18,6 +18,7 @@ import (
 //Server main server type
 type Server struct {
 	*goserver.GoServer
+	curr int32
 }
 
 // Init builds the server
@@ -68,9 +69,11 @@ func (s *Server) buildPage(ctx context.Context) {
 
 		r, err := client.GetRecord(ctx, &pbrg.GetRecordRequest{Refresh: true})
 		if err == nil {
-			s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), r.GetRecord().GetRelease().GetArtists()[0].GetName(), r.GetRecord().GetRelease().GetImages()[0].GetUri())
+			if r.GetRecord().GetRelease().GetInstanceId() != s.curr {
+				s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), r.GetRecord().GetRelease().GetArtists()[0].GetName(), r.GetRecord().GetRelease().GetImages()[0].GetUri())
+				s.curr = r.GetRecord().GetRelease().GetInstanceId()
+			}
 		}
-
 	}
 }
 
