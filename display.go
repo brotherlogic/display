@@ -84,6 +84,11 @@ func (s *Server) handler(ctx context.Context, title, artist, image string) {
 	t, err := t.Parse(`<html>
 	<link rel="stylesheet" href="normalize.css">
 	<link rel="stylesheet" href="style.css">
+	<style>
+		.artwork {
+			background-image: url("index.jpeg");
+		}
+	</style>
 	<meta http-equiv="refresh" content="60">
       <body>
 		<div id="container">	
