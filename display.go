@@ -141,7 +141,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image string) {
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/image.jpeg",
 		OutputServer: "rdisplay",
-		OutputFile:   "/home/simon/image.jpg",
+		OutputFile:   "/home/simon/image.jpeg",
 	})
 }
 
