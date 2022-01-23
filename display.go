@@ -117,8 +117,10 @@ func (s *Server) handler(ctx context.Context, title, artist, image string) {
 	buildStyle()
 	buildCssNorm()
 
-	err = exec.Command("curl", image, "-o", "/media/scratch/display/image.jpeg").Run()
-	s.Log(fmt.Sprintf("Built everything: %v", err))
+	err = exec.Command("curl", image, "-o", "/media/scratch/display/image-raw.jpeg").Run()
+	err2 := exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw.jpeg", "-resize", "500x500", "/media/scratch/display/image.jpeg")
+
+	s.Log(fmt.Sprintf("Built everything: %v and %v", err, err2))
 
 	conn, _ := s.FDialServer(ctx, "filecopier")
 	defer conn.Close()
@@ -159,6 +161,8 @@ func main() {
 	if err != nil {
 		return
 	}
+
+	exec.Command("sudo", "apt", "install", "imagemagick", "-y").Run()
 
 	fmt.Printf("%v", server.Serve())
 }
