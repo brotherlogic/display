@@ -72,14 +72,18 @@ func (s *Server) buildPage(ctx context.Context) {
 		r, err := client.GetRecord(ctx, &pbrg.GetRecordRequest{Refresh: true})
 		if err == nil {
 			if r.GetRecord().GetRelease().GetInstanceId() != s.curr {
-				s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), r.GetRecord().GetRelease().GetArtists()[0].GetName(), r.GetRecord().GetRelease().GetImages()[0].GetUri())
-				s.curr = r.GetRecord().GetRelease().GetInstanceId()
+				err := s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), r.GetRecord().GetRelease().GetArtists()[0].GetName(), r.GetRecord().GetRelease().GetImages()[0].GetUri())
+				if err == nil {
+					s.curr = r.GetRecord().GetRelease().GetInstanceId()
+				} else {
+					s.Log(fmt.Sprintf("Bad build: %v", err))
+				}
 			}
 		}
 	}
 }
 
-func (s *Server) handler(ctx context.Context, title, artist, image string) {
+func (s *Server) handler(ctx context.Context, title, artist, image string) error {
 	t := template.New("page")
 	t, err := t.Parse(`<html>
 	<link rel="stylesheet" href="normalize.css">
@@ -118,38 +122,57 @@ func (s *Server) handler(ctx context.Context, title, artist, image string) {
 	buildCssNorm()
 
 	err = exec.Command("curl", image, "-o", "/media/scratch/display/image-raw.jpeg").Run()
+	if err != nil {
+		return err
+	}
 	err2 := exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw.jpeg", "-resize", "500x500", "/media/scratch/display/image.jpeg").Run()
+	if err2 != nil {
+		return err2
+	}
 
-	s.Log(fmt.Sprintf("Built everything: %v and %v", err, err2))
-
-	conn, _ := s.FDialServer(ctx, "filecopier")
+	conn, err := s.FDialServer(ctx, "filecopier")
+	if err != nil {
+		return err
+	}
 	defer conn.Close()
 
 	fc := fcpb.NewFileCopierServiceClient(conn)
-	fc.Copy(ctx, &fcpb.CopyRequest{
+	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/display.html",
 		OutputServer: "rdisplay",
 		OutputFile:   "/home/simon/index.html",
 	})
-	fc.Copy(ctx, &fcpb.CopyRequest{
+	if err != nil {
+		return err
+	}
+	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/style.css",
 		OutputServer: "rdisplay",
 		OutputFile:   "/home/simon/style.css",
 	})
-	fc.Copy(ctx, &fcpb.CopyRequest{
+	if err != nil {
+		return err
+	}
+	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/normalize.css",
 		OutputServer: "rdisplay",
 		OutputFile:   "/home/simon/normalize.css",
 	})
-	fc.Copy(ctx, &fcpb.CopyRequest{
+	if err != nil {
+		return err
+	}
+	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/image.jpeg",
 		OutputServer: "rdisplay",
 		OutputFile:   "/home/simon/image.jpeg",
 	})
+	if err != nil {
+		return err
+	}
 }
 
 func main() {
