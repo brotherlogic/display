@@ -173,6 +173,8 @@ func (s *Server) handler(ctx context.Context, title, artist, image string) error
 	if err != nil {
 		return err
 	}
+
+	return nil
 }
 
 func main() {
