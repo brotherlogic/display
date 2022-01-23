@@ -118,7 +118,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image string) {
 	buildCssNorm()
 
 	err = exec.Command("curl", image, "-o", "/media/scratch/display/image-raw.jpeg").Run()
-	err2 := exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw.jpeg", "-resize", "500x500", "/media/scratch/display/image.jpeg")
+	err2 := exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw.jpeg", "-resize", "500x500", "/media/scratch/display/image.jpeg").Run()
 
 	s.Log(fmt.Sprintf("Built everything: %v and %v", err, err2))
 
