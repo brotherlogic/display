@@ -86,7 +86,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image string) {
 	<link rel="stylesheet" href="style.css">
 	<style>
 		.artwork {
-			background-image: url("index.jpeg");
+			background-image: url("image.jpeg");
 		}
 	</style>
 	<meta http-equiv="refresh" content="60">
