@@ -162,7 +162,8 @@ func main() {
 		return
 	}
 
-	exec.Command("sudo", "apt", "install", "imagemagick", "-y").Run()
+	err2 := exec.Command("sudo", "apt", "install", "imagemagick", "-y").Run()
+	server.Log(fmt.Sprintf("INSTALLED: %v", err2))
 
 	fmt.Printf("%v", server.Serve())
 }
