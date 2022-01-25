@@ -10,6 +10,8 @@ import (
 	"github.com/brotherlogic/goserver"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	fcpb "github.com/brotherlogic/filecopier/proto"
 	pbg "github.com/brotherlogic/goserver/proto"
@@ -81,6 +83,11 @@ func (s *Server) buildPage(ctx context.Context) {
 		client := pbrg.NewRecordGetterClient(conn)
 
 		r, err := client.GetRecord(ctx, &pbrg.GetRecordRequest{})
+
+		if status.Convert(err).Code() == codes.FailedPrecondition {
+			r, err = client.GetRecord(ctx, &pbrg.GetRecordRequest{Type: pbrg.RequestType_DIGITAL})
+		}
+
 		if err == nil {
 			if r.GetRecord().GetRelease().GetInstanceId() != s.curr {
 				extra := ""
