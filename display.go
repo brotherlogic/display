@@ -69,7 +69,7 @@ func (s *Server) buildPage(ctx context.Context) {
 		defer conn.Close()
 		client := pbrg.NewRecordGetterClient(conn)
 
-		r, err := client.GetRecord(ctx, &pbrg.GetRecordRequest{Refresh: true})
+		r, err := client.GetRecord(ctx, &pbrg.GetRecordRequest{})
 		if err == nil {
 			if r.GetRecord().GetRelease().GetInstanceId() != s.curr {
 				extra := ""
