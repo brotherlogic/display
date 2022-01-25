@@ -15,6 +15,6 @@ func (s *Server) Show(ctx context.Context, req *pb.ShowRequest) (*pb.ShowRespons
 
 //ClientUpdate on an updated record
 func (s *Server) ClientUpdate(ctx context.Context, req *rcpb.ClientUpdateRequest) (*rcpb.ClientUpdateResponse, error) {
-	s.buildPage(ctx)
+	s.backgroundBuild()
 	return &rcpb.ClientUpdateResponse{}, nil
 }

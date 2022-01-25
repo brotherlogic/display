@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"text/template"
+	"time"
 
 	"github.com/brotherlogic/goserver"
 	"golang.org/x/net/context"
@@ -12,6 +13,7 @@ import (
 
 	fcpb "github.com/brotherlogic/filecopier/proto"
 	pbg "github.com/brotherlogic/goserver/proto"
+	"github.com/brotherlogic/goserver/utils"
 	rcpb "github.com/brotherlogic/recordcollection/proto"
 	pbrg "github.com/brotherlogic/recordgetter/proto"
 )
@@ -62,6 +64,14 @@ type temp struct {
 	Title  string
 	Artist string
 	Image  string
+}
+
+func (s *Server) backgroundBuild() {
+	go func() {
+		ctx, cancel := utils.ManualContext("display-background", time.Minute*10)
+		defer cancel()
+		s.buildPage(ctx)
+	}()
 }
 
 func (s *Server) buildPage(ctx context.Context) {
@@ -195,7 +205,7 @@ func main() {
 
 	err2 := exec.Command("sudo", "apt", "install", "imagemagick", "-y").Run()
 	server.Log(fmt.Sprintf("INSTALLED: %v", err2))
-	server.buildPage(context.Background())
+	server.backgroundBuild()
 
 	fmt.Printf("%v", server.Serve())
 }
