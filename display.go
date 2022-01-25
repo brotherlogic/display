@@ -194,6 +194,7 @@ func main() {
 
 	err2 := exec.Command("sudo", "apt", "install", "imagemagick", "-y").Run()
 	server.Log(fmt.Sprintf("INSTALLED: %v", err2))
+	server.buildPage(context.Background())
 
 	fmt.Printf("%v", server.Serve())
 }
