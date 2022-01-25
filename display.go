@@ -72,7 +72,11 @@ func (s *Server) buildPage(ctx context.Context) {
 		r, err := client.GetRecord(ctx, &pbrg.GetRecordRequest{Refresh: true})
 		if err == nil {
 			if r.GetRecord().GetRelease().GetInstanceId() != s.curr {
-				err := s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), r.GetRecord().GetRelease().GetArtists()[0].GetName(), r.GetRecord().GetRelease().GetImages()[0].GetUri())
+				extra := ""
+				if r.GetRecord().GetMetadata().GetCategory() == rcpb.ReleaseMetadata_UNKNOWN {
+					extra = "(Want)"
+				}
+				err := s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), r.GetRecord().GetRelease().GetArtists()[0].GetName(), r.GetRecord().GetRelease().GetImages()[0].GetUri(), extra)
 				if err == nil {
 					s.curr = r.GetRecord().GetRelease().GetInstanceId()
 				} else {
@@ -83,7 +87,7 @@ func (s *Server) buildPage(ctx context.Context) {
 	}
 }
 
-func (s *Server) handler(ctx context.Context, title, artist, image string) error {
+func (s *Server) handler(ctx context.Context, title, artist, image, extra string) error {
 	t := template.New("page")
 	t, err := t.Parse(`<html>
 	<link rel="stylesheet" href="normalize.css">
@@ -102,6 +106,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image string) error
 				<div class="text">
 					<div class="artist">{{.Artist}}</div>
 					<div class="album">{{.Title}}</div>
+					<div class="number">{{.Extra}}</div>
 				</div>		
 			</section>		
 		</div>
