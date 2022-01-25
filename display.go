@@ -26,6 +26,7 @@ type Server struct {
 func Init() *Server {
 	s := &Server{
 		GoServer: &goserver.GoServer{},
+		curr:     int32(-1),
 	}
 	return s
 }
