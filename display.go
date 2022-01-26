@@ -66,6 +66,7 @@ type temp struct {
 	Title  string
 	Artist string
 	Image  string
+	Extra  string
 }
 
 func (s *Server) backgroundBuild() {
@@ -93,6 +94,10 @@ func (s *Server) buildPage(ctx context.Context) {
 				extra := ""
 				if r.GetRecord().GetMetadata().GetCategory() == rcpb.ReleaseMetadata_UNKNOWN {
 					extra = "(Want)"
+				}
+				if r.GetRecord().GetMetadata().GetFiledUnder() == rcpb.ReleaseMetadata_FILE_DIGITAL ||
+					r.GetRecord().GetMetadata().GetFiledUnder() == rcpb.ReleaseMetadata_FILE_CD {
+					extra = "(Digital)"
 				}
 				err := s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), r.GetRecord().GetRelease().GetArtists()[0].GetName(), r.GetRecord().GetRelease().GetImages()[0].GetUri(), extra)
 				if err == nil {
@@ -140,7 +145,8 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	t.Execute(f, &temp{
 		Title:  title,
 		Artist: artist,
-		Image:  image})
+		Image:  image,
+		Extra:  extra})
 	buildStyle()
 	buildCssNorm()
 
