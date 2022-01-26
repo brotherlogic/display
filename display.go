@@ -150,7 +150,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	}
 	err2 := exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw.jpeg", "-resize", "500x500", "/media/scratch/display/image.jpeg").Run()
 	if err2 != nil {
-		return fmt.Errorf("Bad convert: %v", err2)
+		return fmt.Errorf("Bad convert of %v: %v", image, err2)
 	}
 
 	conn, err := s.FDialServer(ctx, "filecopier")
