@@ -101,7 +101,7 @@ func (s *Server) buildPage(ctx context.Context) {
 			if r.GetRecord().GetRelease().GetInstanceId() != s.curr {
 				extra := ""
 				if r.GetDisk() > 1 {
-					extra = fmt.Sprintf("{Disk %v", r.GetDisk())
+					extra = fmt.Sprintf("{Disk %v}", r.GetDisk())
 				}
 
 				if r.GetRecord().GetMetadata().GetCategory() == rcpb.ReleaseMetadata_UNKNOWN {
