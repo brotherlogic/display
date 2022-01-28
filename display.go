@@ -78,6 +78,13 @@ func (s *Server) backgroundBuild() {
 	}()
 }
 
+func convertArtist(artist string) string {
+	if strings.HasSuffix(artist, ")") {
+		return artist[:strings.LastIndex(artist, "(")]
+	}
+	return artist
+}
+
 func (s *Server) buildPage(ctx context.Context) {
 	conn, err := s.FDialServer(ctx, "recordgetter")
 	if err == nil {
@@ -152,7 +159,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 
 	t.Execute(f, &temp{
 		Title:  title,
-		Artist: artist,
+		Artist: convertArtist(artist),
 		Image:  image,
 		Extra:  extra})
 	buildStyle()
