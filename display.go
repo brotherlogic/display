@@ -159,7 +159,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 
 	t.Execute(f, &temp{
 		Title:  title,
-		Artist: convertArtist(artist),
+		Artist: strings.TrimSpace(convertArtist(artist)),
 		Image:  image,
 		Extra:  extra})
 	buildStyle()
