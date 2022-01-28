@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"strings"
 	"text/template"
 	"time"
 
@@ -97,12 +98,15 @@ func (s *Server) buildPage(ctx context.Context) {
 				}
 
 				if r.GetRecord().GetMetadata().GetCategory() == rcpb.ReleaseMetadata_UNKNOWN {
-					extra = "(Want)"
+					extra += " (Want)"
 				}
 				if r.GetRecord().GetMetadata().GetFiledUnder() == rcpb.ReleaseMetadata_FILE_DIGITAL ||
 					r.GetRecord().GetMetadata().GetFiledUnder() == rcpb.ReleaseMetadata_FILE_CD {
-					extra = "(Digital)"
+					extra += " (Digital)"
 				}
+
+				extra = strings.TrimSpace(extra)
+
 				err := s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), r.GetRecord().GetRelease().GetArtists()[0].GetName(), r.GetRecord().GetRelease().GetImages()[0].GetUri(), extra)
 				if err == nil {
 					s.curr = r.GetRecord().GetRelease().GetInstanceId()
