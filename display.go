@@ -120,6 +120,8 @@ func (s *Server) buildPage(ctx context.Context) {
 				} else {
 					s.Log(fmt.Sprintf("Bad build: %v", err))
 				}
+			} else {
+				s.CtxLog(ctx, fmt.Sprintf("Skipping logging because %v == %v", r.GetRecord().GetRelease().GetInstanceId(), s.curr))
 			}
 		}
 	}
