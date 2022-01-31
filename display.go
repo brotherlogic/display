@@ -104,6 +104,10 @@ func (s *Server) buildPage(ctx context.Context) {
 					extra = fmt.Sprintf("{Disk %v}", r.GetDisk())
 				}
 
+				if r.GetRecord().GetMetadata().GetCategory() == rcpb.ReleaseMetadata_STAGED_TO_SELL {
+					extra += " {SALE}"
+				}
+
 				if r.GetRecord().GetMetadata().GetCategory() == rcpb.ReleaseMetadata_UNKNOWN {
 					extra += " (Want)"
 				}
