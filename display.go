@@ -100,7 +100,7 @@ func (s *Server) buildPage(ctx context.Context) {
 		if err == nil {
 			if r.GetRecord().GetRelease().GetInstanceId() != s.curr {
 				extra := ""
-				if r.GetDisk() > 1 {
+				if r.GetRecord().GetRelease().GetFormatQuantity() > 1 {
 					extra = fmt.Sprintf("{Disk %v}", r.GetDisk())
 				}
 
