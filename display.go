@@ -195,7 +195,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	}
 	err2 := exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw.jpeg", "-resize", "500x500", "/media/scratch/display/image.jpeg").Run()
 	if err2 != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("CONVERT: %v", err)}).Inc()
+		activity.With(prometheus.Labels{"message": fmt.Sprintf("CONVERT: %v", err2)}).Inc()
 		return fmt.Errorf("Bad convert of %v: %v", image, err2)
 	}
 
