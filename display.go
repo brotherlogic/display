@@ -105,7 +105,7 @@ func (s *Server) buildPage(ctx context.Context) {
 		defer conn.Close()
 		client := pbrg.NewRecordGetterClient(conn)
 
-		r, err := client.GetRecord(ctx, &pbrg.GetRecordRequest{})
+		r, err := client.GetRecord(ctx, &pbrg.GetRecordRequest{Refresh: true})
 		if err != nil {
 			activity.With(prometheus.Labels{"message": fmt.Sprintf("GET_RECORD: %v", err)}).Inc()
 		}
