@@ -135,7 +135,12 @@ func (s *Server) buildPage(ctx context.Context) {
 
 				extra = strings.TrimSpace(extra)
 
-				err := s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), r.GetRecord().GetRelease().GetArtists()[0].GetName(), r.GetRecord().GetRelease().GetImages()[0].GetUri(), extra)
+				artist := "Unknown"
+				if len(r.GetRecord().GetRelease().GetArtists()) > 0 {
+					artist = r.GetRecord().GetRelease().GetArtists()[0].GetName()
+				}
+
+				err := s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), artist, r.GetRecord().GetRelease().GetImages()[0].GetUri(), extra)
 				if err == nil {
 					s.curr = r.GetRecord().GetRelease().GetInstanceId()
 				} else {
