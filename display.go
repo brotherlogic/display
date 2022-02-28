@@ -140,7 +140,11 @@ func (s *Server) buildPage(ctx context.Context) {
 					artist = r.GetRecord().GetRelease().GetArtists()[0].GetName()
 				}
 
-				err := s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), artist, r.GetRecord().GetRelease().GetImages()[0].GetUri(), extra)
+				url := "https://secure.gravatar.com/avatar/d44e93769ea7b6bada5578bb0f48f76f?s=300&r=pg&d=mm"
+				if len(r.GetRecord().GetRelease().GetImages()) > 0 {
+					url = r.GetRecord().GetRelease().GetImages()[0].GetUri()
+				}
+				err := s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), artist, url, extra)
 				if err == nil {
 					s.curr = r.GetRecord().GetRelease().GetInstanceId()
 				} else {
