@@ -182,7 +182,9 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		</div>
 	</body>
 	</html>`)
-	s.Log(fmt.Sprintf("PARSED: %v", err))
+	if err != nil {
+		s.CtxLog(ctx, fmt.Sprintf("PARSED: %v", err))
+	}
 
 	os.MkdirAll("/media/scratch/display/", 0777)
 	os.Create("/media/scratch/display/display.html")
