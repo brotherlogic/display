@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"strings"
@@ -273,8 +274,10 @@ func main() {
 		return
 	}
 
-	err2 := exec.Command("sudo", "apt", "install", "imagemagick", "-y").Run()
-	server.Log(fmt.Sprintf("INSTALLED: %v", err2))
+	out, err2 := exec.Command("sudo", "apt", "install", "imagemagick", "-y").Output()
+	if err2 != nil {
+		log.Fatalf("Unable to install imagemgick: %v -> %v", err2, string(out))
+	}
 	server.backgroundBuild()
 
 	fmt.Printf("%v", server.Serve())
