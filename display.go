@@ -106,7 +106,13 @@ func (s *Server) buildPage(ctx context.Context) {
 		defer conn.Close()
 		client := pbrg.NewRecordGetterClient(conn)
 
-		r, err := client.GetRecord(ctx, &pbrg.GetRecordRequest{Refresh: true})
+		var r *pbrg.GetRecordResponse
+		if time.Now().Hour() >= 17 && time.Now().Hour() < 18 {
+			r, err = client.GetRecord(ctx, &pbrg.GetRecordRequest{Refresh: true, Type: pbrg.RequestType_AUDITION})
+		} else {
+			r, err = client.GetRecord(ctx, &pbrg.GetRecordRequest{Refresh: true})
+		}
+
 		if err != nil {
 			activity.With(prometheus.Labels{"message": fmt.Sprintf("GET_RECORD: %v", err)}).Inc()
 		}
