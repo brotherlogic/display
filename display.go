@@ -225,7 +225,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	defer conn.Close()
 
 	fc := fcpb.NewFileCopierServiceClient(conn)
-	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
+	_, err = fc.QueueCopy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/display.html",
 		OutputServer: "rdisplay",
@@ -235,7 +235,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_HTML: %v", err)}).Inc()
 		return err
 	}
-	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
+	_, err = fc.QueueCopy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/style.css",
 		OutputServer: "rdisplay",
@@ -245,7 +245,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_CSS: %v", err)}).Inc()
 		return err
 	}
-	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
+	_, err = fc.QueueCopy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/normalize.css",
 		OutputServer: "rdisplay",
@@ -255,7 +255,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_NORM: %v", err)}).Inc()
 		return err
 	}
-	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
+	_, err = fc.QueueCopy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/image.jpeg",
 		OutputServer: "rdisplay",
