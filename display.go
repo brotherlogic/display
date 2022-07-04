@@ -230,6 +230,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		InputFile:    "/media/scratch/display/display.html",
 		OutputServer: "rdisplay",
 		OutputFile:   "/home/simon/index.html",
+		Override:     true,
 	})
 	if err != nil {
 		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_HTML: %v", err)}).Inc()
@@ -240,6 +241,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		InputFile:    "/media/scratch/display/style.css",
 		OutputServer: "rdisplay",
 		OutputFile:   "/home/simon/style.css",
+		Override:     true,
 	})
 	if err != nil {
 		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_CSS: %v", err)}).Inc()
@@ -250,6 +252,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		InputFile:    "/media/scratch/display/normalize.css",
 		OutputServer: "rdisplay",
 		OutputFile:   "/home/simon/normalize.css",
+		Override:     true,
 	})
 	if err != nil {
 		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_NORM: %v", err)}).Inc()
@@ -260,6 +263,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		InputFile:    "/media/scratch/display/image.jpeg",
 		OutputServer: "rdisplay",
 		OutputFile:   "/home/simon/image.jpeg",
+		Override:     true,
 	})
 	if err != nil {
 		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_IMAGE: %v", err)}).Inc()
