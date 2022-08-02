@@ -3,17 +3,18 @@ module github.com/brotherlogic/display
 go 1.16
 
 require (
-	github.com/brotherlogic/discovery v0.0.0-20220630142507-eb08363e7713 // indirect
 	github.com/brotherlogic/filecopier v0.0.0-20220606200431-353e1614d63b
-	github.com/brotherlogic/goserver v0.0.0-20220624154320-8468ddf22f08
-	github.com/brotherlogic/keystore v0.0.0-20220621052415-70ae78501e3c // indirect
-	github.com/brotherlogic/recordcollection v0.0.0-20220628184506-d191cf2d7756
-	github.com/brotherlogic/recordgetter v0.0.0-20220624165044-357640260d27
+	github.com/brotherlogic/githubcard v0.0.0-20220801172901-d229178df90b // indirect
+	github.com/brotherlogic/gobuildslave v0.0.0-20220730205600-315df8f4b93c // indirect
+	github.com/brotherlogic/godiscogs v0.0.0-20220722012105-93cf4f2124d9 // indirect
+	github.com/brotherlogic/goserver v0.0.0-20220802151516-4b60a60b3020
+	github.com/brotherlogic/recordcollection v0.0.0-20220802145431-f92ece5c2f20
+	github.com/brotherlogic/recordgetter v0.0.0-20220723172038-cb67c0c0cc63
 	github.com/golang/protobuf v1.5.2
 	github.com/prometheus/client_golang v1.12.2
-	golang.org/x/net v0.0.0-20220624214902-1bab6f366d9e
-	golang.org/x/sys v0.0.0-20220627191245-f75cf1eec38b // indirect
-	google.golang.org/genproto v0.0.0-20220630135532-f4acab7bd6cf // indirect
-	google.golang.org/grpc v1.47.0
-	google.golang.org/protobuf v1.28.0
+	golang.org/x/net v0.0.0-20220728211354-c7608f3a8462
+	golang.org/x/sys v0.0.0-20220731174439-a90be440212d // indirect
+	google.golang.org/genproto v0.0.0-20220802133213-ce4fa296bf78 // indirect
+	google.golang.org/grpc v1.48.0
+	google.golang.org/protobuf v1.28.1
 )

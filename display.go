@@ -276,10 +276,10 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 
 func main() {
 	server := Init()
-	server.PrepServer()
+	server.PrepServer("display")
 	server.Register = server
 
-	err := server.RegisterServerV2("display", false, true)
+	err := server.RegisterServerV2(false)
 	if err != nil {
 		return
 	}
