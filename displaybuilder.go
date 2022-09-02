@@ -88,8 +88,8 @@ func buildStyle() {
 		}
 		
 		#container {
-			width: 720px;
-			height: 720px;
+			width: 800px;
+			height: 480px;
 			margin: 0px auto;
 			border: 1px solid #000;
 			position: relative;
@@ -121,7 +121,7 @@ func buildStyle() {
 			overflow: hidden;
 		}
 		.art_image {
-			width: 400px;
+			width: 500px;
 			border-radius: 6px;
 			position: relative;
 			z-index: 2;
