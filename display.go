@@ -155,7 +155,7 @@ func (s *Server) buildPage(ctx context.Context) {
 				if err == nil {
 					s.curr = r.GetRecord().GetRelease().GetInstanceId()
 				} else {
-					s.Log(fmt.Sprintf("Bad build: %v", err))
+					s.CtxLog(ctx, fmt.Sprintf("Bad build: %v", err))
 				}
 			} else {
 				s.CtxLog(ctx, fmt.Sprintf("Skipping logging because %v == %v", r.GetRecord().GetRelease().GetInstanceId(), s.curr))
@@ -228,7 +228,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/display.html",
-		OutputServer: "rdisplay",
+		OutputServer: "mdisplay",
 		OutputFile:   "/home/simon/index.html",
 		Override:     true,
 	})
@@ -239,7 +239,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/style.css",
-		OutputServer: "rdisplay",
+		OutputServer: "mdisplay",
 		OutputFile:   "/home/simon/style.css",
 		Override:     true,
 	})
@@ -250,7 +250,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/normalize.css",
-		OutputServer: "rdisplay",
+		OutputServer: "mdisplay",
 		OutputFile:   "/home/simon/normalize.css",
 		Override:     true,
 	})
@@ -261,7 +261,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/image.jpeg",
-		OutputServer: "rdisplay",
+		OutputServer: "mdisplay",
 		OutputFile:   "/home/simon/image.jpeg",
 		Override:     true,
 	})
