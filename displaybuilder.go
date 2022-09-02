@@ -121,7 +121,7 @@ func buildStyle() {
 			overflow: hidden;
 		}
 		.art_image {
-			width: 500px;
+			width: 400px;
 			border-radius: 6px;
 			position: relative;
 			z-index: 2;
