@@ -179,7 +179,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		<div id="container">	
 			<div class="artwork"></div>
 			<section id="main">
-				<img class="art_image" src="image.jpeg" width=400" height="400">
+				<img class="art_image" src="image.jpeg" width=300" height="300">
 				<div class="text">
 					<div class="artist">{{.Artist}}</div>
 					<div class="album">{{.Title}}</div>
@@ -211,7 +211,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		activity.With(prometheus.Labels{"message": fmt.Sprintf("DOWNLOAD: %v", err)}).Inc()
 		return fmt.Errorf("Bad download: %v", err)
 	}
-	output, err2 := exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw.jpeg", "-resize", "400x400", "/media/scratch/display/image.jpeg").CombinedOutput()
+	output, err2 := exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw.jpeg", "-resize", "300x300", "/media/scratch/display/image.jpeg").CombinedOutput()
 	if err2 != nil {
 		activity.With(prometheus.Labels{"message": fmt.Sprintf("CONVERT: %v", err2)}).Inc()
 		return fmt.Errorf("Bad convert of %v: %v -> %v", image, err2, string(output))
