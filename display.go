@@ -31,7 +31,7 @@ var (
 	}, []string{"message"})
 )
 
-//Server main server type
+// Server main server type
 type Server struct {
 	*goserver.GoServer
 	curr int32
@@ -107,11 +107,7 @@ func (s *Server) buildPage(ctx context.Context) {
 		client := pbrg.NewRecordGetterClient(conn)
 
 		var r *pbrg.GetRecordResponse
-		if time.Now().Hour() >= 17 && time.Now().Hour() < 18 {
-			r, err = client.GetRecord(ctx, &pbrg.GetRecordRequest{Refresh: true, Type: pbrg.RequestType_AUDITION})
-		} else {
-			r, err = client.GetRecord(ctx, &pbrg.GetRecordRequest{Refresh: true})
-		}
+		r, err = client.GetRecord(ctx, &pbrg.GetRecordRequest{Refresh: true})
 
 		if err != nil {
 			activity.With(prometheus.Labels{"message": fmt.Sprintf("GET_RECORD: %v", err)}).Inc()
