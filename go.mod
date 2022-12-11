@@ -5,8 +5,7 @@ go 1.16
 require (
 	github.com/brotherlogic/filecopier v0.0.0-20221211015024-12080a77fee5
 	github.com/brotherlogic/goserver v0.0.0-20221202193151-b0b39691c212
-	github.com/brotherlogic/lock v0.0.0-20221211025725-c7b14345e31e // indirect
-	github.com/brotherlogic/recordcollection v0.0.0-20221211023519-5b8d6fb1efc2
+	github.com/brotherlogic/recordcollection v0.0.0-20221211031702-1a9f1b91f895
 	github.com/brotherlogic/recordgetter v0.0.0-20221210160737-a8a12a88bb78
 	github.com/golang/protobuf v1.5.2
 	github.com/prometheus/client_golang v1.14.0
