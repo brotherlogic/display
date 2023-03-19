@@ -286,7 +286,14 @@ func main() {
 	if err2 != nil {
 		log.Fatalf("Unable to install imagemgick: %v -> %v", err2, string(out))
 	}
-	server.backgroundBuild()
 
+	// Run build every minute
+	go func() {
+		for !server.LameDuck {
+		server.backgroundBuild()
+		}
+		time.Sleep(time.Minute)
+	}
+	
 	fmt.Printf("%v", server.Serve())
 }
