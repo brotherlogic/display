@@ -290,10 +290,10 @@ func main() {
 	// Run build every minute
 	go func() {
 		for !server.LameDuck {
-		server.backgroundBuild()
+			server.backgroundBuild()
 		}
 		time.Sleep(time.Minute)
-	}
-	
+	}()
+
 	fmt.Printf("%v", server.Serve())
 }
