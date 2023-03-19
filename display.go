@@ -291,8 +291,9 @@ func main() {
 	go func() {
 		for !server.LameDuck {
 			server.backgroundBuild()
+			time.Sleep(time.Minute)
 		}
-		time.Sleep(time.Minute)
+
 	}()
 
 	fmt.Printf("%v", server.Serve())
