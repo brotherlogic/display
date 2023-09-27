@@ -3,13 +3,14 @@ module github.com/brotherlogic/display
 go 1.16
 
 require (
-	github.com/brotherlogic/filecopier v0.0.0-20230920071636-4c70d40d0741
+	github.com/brotherlogic/filecopier v0.0.0-20230927071912-7670fa0c90d3
 	github.com/brotherlogic/goserver v0.0.0-20230726200050-779ae6811580
-	github.com/brotherlogic/recordcollection v0.0.0-20230919174228-c373043ea242
-	github.com/brotherlogic/recordgetter v0.0.0-20230916005602-bbcc62d3ebb6
+	github.com/brotherlogic/lock v0.0.0-20230927082510-080bdda4a5fe // indirect
+	github.com/brotherlogic/recordcollection v0.0.0-20230922000930-33de01270cc4
+	github.com/brotherlogic/recordgetter v0.0.0-20230921000525-f1b4f9c522ef
 	github.com/golang/protobuf v1.5.3
-	github.com/prometheus/client_golang v1.16.0
+	github.com/prometheus/client_golang v1.17.0
 	golang.org/x/net v0.15.0
-	google.golang.org/grpc v1.58.1
+	google.golang.org/grpc v1.58.2
 	google.golang.org/protobuf v1.31.0
 )
