@@ -3,7 +3,7 @@ module github.com/brotherlogic/display
 go 1.16
 
 require (
-	github.com/brotherlogic/datastore v0.0.0-20231020043628-33236fdced2d // indirect
+	github.com/brotherlogic/buildserver v0.0.0-20231020044640-29ec8a8905f7 // indirect
 	github.com/brotherlogic/filecopier v0.0.0-20231019041158-800bd45c78ce
 	github.com/brotherlogic/goserver v0.0.0-20230726200050-779ae6811580
 	github.com/brotherlogic/recordcollection v0.0.0-20231019051056-a4b21e81ca3d
