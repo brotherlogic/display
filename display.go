@@ -147,7 +147,7 @@ func (s *Server) buildPage(ctx context.Context) {
 				if len(r.GetRecord().GetRelease().GetImages()) > 0 {
 					url = r.GetRecord().GetRelease().GetImages()[0].GetUri()
 				}
-				err := s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), artist, url, extra)
+				err := s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), artist, url, extra, r.GetRecord().GetRelease().GetInstanceId())
 				if err == nil {
 					s.curr = r.GetRecord().GetRelease().GetInstanceId()
 				} else {
@@ -160,7 +160,7 @@ func (s *Server) buildPage(ctx context.Context) {
 	}
 }
 
-func (s *Server) handler(ctx context.Context, title, artist, image, extra string) error {
+func (s *Server) handler(ctx context.Context, title, artist, image, extra string, id int32) error {
 	t := template.New("page")
 	t, err := t.Parse(`<html>
 	<link rel="stylesheet" href="normalize.css">
@@ -212,7 +212,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	output, err2 := exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw.jpeg", "-resize", "300x300", "/media/scratch/display/image.jpeg").CombinedOutput()
 	if err2 != nil {
 		activity.With(prometheus.Labels{"message": fmt.Sprintf("CONVERT: %v", err2)}).Inc()
-		return fmt.Errorf("Bad convert of %v: %v -> %v", image, err2, string(output))
+		return fmt.Errorf("Bad convert of (%v) %v: %v -> %v", id, image, err2, string(output))
 	}
 
 	conn, err := s.FDialServer(ctx, "filecopier")
