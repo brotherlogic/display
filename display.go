@@ -20,6 +20,7 @@ import (
 	fcpb "github.com/brotherlogic/filecopier/proto"
 	pbg "github.com/brotherlogic/goserver/proto"
 	"github.com/brotherlogic/goserver/utils"
+	pbrc "github.com/brotherlogic/recordcleaner/proto"
 	rcpb "github.com/brotherlogic/recordcollection/proto"
 	pbrg "github.com/brotherlogic/recordgetter/proto"
 )
@@ -74,10 +75,13 @@ func (s *Server) GetState() []*pbg.State {
 }
 
 type temp struct {
-	Title  string
-	Artist string
-	Image  string
-	Extra  string
+	Title   string
+	Artist  string
+	Image   string
+	Extra   string
+	Title2  string
+	Artist2 string
+	Image2  string
 }
 
 func (s *Server) backgroundBuild() {
@@ -118,6 +122,26 @@ func (s *Server) buildPage(ctx context.Context) {
 		}
 
 		if err == nil {
+			conn2, err := s.FDialServer(ctx, "recordcleaner")
+			if err != nil {
+				return
+			}
+			client2 := pbrc.NewRecordCleanerServiceClient(conn2)
+			toclean, err := client2.GetClean(ctx, &pbrc.GetCleanRequest{})
+			if err != nil {
+				return
+			}
+
+			conn3, err := s.FDialServer(ctx, "recordcollection")
+			if err != nil {
+				return
+			}
+			client3 := rcpb.NewRecordCollectionServiceClient(conn3)
+			rec, err := client3.GetRecord(ctx, &rcpb.GetRecordRequest{InstanceId: toclean.GetInstanceId()})
+			if err != nil {
+				return
+			}
+
 			if r.GetRecord().GetRelease().GetInstanceId() != s.curr {
 				extra := ""
 				if r.GetRecord().GetRelease().GetFormatQuantity() > 1 {
@@ -142,12 +166,21 @@ func (s *Server) buildPage(ctx context.Context) {
 				if len(r.GetRecord().GetRelease().GetArtists()) > 0 {
 					artist = r.GetRecord().GetRelease().GetArtists()[0].GetName()
 				}
+				artist2 := "Unknown"
+				if len(rec.GetRecord().GetRelease().GetArtists()) > 0 {
+					artist2 = r.GetRecord().GetRelease().GetArtists()[0].GetName()
+				}
 
 				url := "https://secure.gravatar.com/avatar/d44e93769ea7b6bada5578bb0f48f76f?s=300&r=pg&d=mm"
 				if len(r.GetRecord().GetRelease().GetImages()) > 0 {
 					url = r.GetRecord().GetRelease().GetImages()[0].GetUri()
 				}
-				err := s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), artist, url, extra, r.GetRecord().GetRelease().GetInstanceId())
+
+				url2 := "https://secure.gravatar.com/avatar/d44e93769ea7b6bada5578bb0f48f76f?s=300&r=pg&d=mm"
+				if len(rec.GetRecord().GetRelease().GetImages()) > 0 {
+					url = rec.GetRecord().GetRelease().GetImages()[0].GetUri()
+				}
+				err := s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), artist, url, extra, r.GetRecord().GetRelease().GetInstanceId(), rec.GetRecord().GetRelease().GetTitle(), artist2, url2)
 				if err == nil {
 					s.curr = r.GetRecord().GetRelease().GetInstanceId()
 				} else {
@@ -160,7 +193,7 @@ func (s *Server) buildPage(ctx context.Context) {
 	}
 }
 
-func (s *Server) handler(ctx context.Context, title, artist, image, extra string, id int32) error {
+func (s *Server) handler(ctx context.Context, title, artist, image, extra string, id int32, title2, artist2, image2 string) error {
 	t := template.New("page")
 	t, err := t.Parse(`<html>
 	<link rel="stylesheet" href="normalize.css">
@@ -194,11 +227,11 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 						<div class="artwork"></div>
 						<section id="main">
 							<center>
-							<img class="art_image" src="image.jpeg" width="150" height="150">
+							<img class="art_image" src="image2.jpeg" width="150" height="150">
 							<div class="text">
-								<div class="artist">{{.Artist}}</div>
-								<div class="album">{{.Title}}</div>
-								<div class="number">{{.Extra}}</div>
+								<div class="artist">{{.Artist2}}</div>
+								<div class="album">{{.Title2}}</div>
+								<div class="number"></div>
 							</div>		
 							</center>
 						</section>		
@@ -218,10 +251,12 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	defer f.Close()
 
 	t.Execute(f, &temp{
-		Title:  title,
-		Artist: strings.TrimSpace(convertArtist(artist)),
-		Image:  image,
-		Extra:  extra})
+		Title:   title,
+		Artist:  strings.TrimSpace(convertArtist(artist)),
+		Image:   image,
+		Extra:   extra,
+		Title2:  title2,
+		Artist2: strings.TrimSpace(convertArtist(artist2))})
 	buildStyle()
 	buildCssNorm()
 
@@ -231,6 +266,17 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		return fmt.Errorf("Bad download: %v", err)
 	}
 	output, err2 := exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw.jpeg", "-resize", "300x300", "/media/scratch/display/image.jpeg").CombinedOutput()
+	if err2 != nil {
+		activity.With(prometheus.Labels{"message": fmt.Sprintf("CONVERT: %v", err2)}).Inc()
+		return fmt.Errorf("Bad convert of (%v) %v: %v -> %v", id, image, err2, string(output))
+	}
+
+	err = exec.Command("curl", image2, "-o", "/media/scratch/display/image-raw.jpeg").Run()
+	if err != nil {
+		activity.With(prometheus.Labels{"message": fmt.Sprintf("DOWNLOAD: %v", err)}).Inc()
+		return fmt.Errorf("Bad download: %v", err)
+	}
+	output, err2 = exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw.jpeg", "-resize", "300x300", "/media/scratch/display/image2.jpeg").CombinedOutput()
 	if err2 != nil {
 		activity.With(prometheus.Labels{"message": fmt.Sprintf("CONVERT: %v", err2)}).Inc()
 		return fmt.Errorf("Bad convert of (%v) %v: %v -> %v", id, image, err2, string(output))
@@ -282,6 +328,18 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		InputFile:    "/media/scratch/display/image.jpeg",
 		OutputServer: "mdisplay",
 		OutputFile:   "/home/simon/image.jpeg",
+		Override:     true,
+	})
+	if err != nil {
+		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_IMAGE: %v", err)}).Inc()
+		return err
+	}
+
+	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
+		InputServer:  s.Registry.Identifier,
+		InputFile:    "/media/scratch/display/image2.jpeg",
+		OutputServer: "mdisplay",
+		OutputFile:   "/home/simon/image2.jpeg",
 		Override:     true,
 	})
 	if err != nil {
