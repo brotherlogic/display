@@ -179,7 +179,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 						<div class="artwork"></div>
 						<section id="main">
 							<center>
-							<img class="art_image" src="image.jpeg" width=150" height="150">
+							<img class="art_image" src="image.jpeg" width="150" height="150">
 							<div class="text">
 								<div class="artist">{{.Artist}}</div>
 								<div class="album">{{.Title}}</div>
@@ -194,7 +194,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 						<div class="artwork"></div>
 						<section id="main">
 							<center>
-							<img class="art_image" src="image.jpeg" width=150" height="150">
+							<img class="art_image" src="image.jpeg" width="150" height="150">
 							<div class="text">
 								<div class="artist">{{.Artist}}</div>
 								<div class="album">{{.Title}}</div>
