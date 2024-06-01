@@ -35,7 +35,8 @@ var (
 // Server main server type
 type Server struct {
 	*goserver.GoServer
-	curr int32
+	curr  int32
+	curr2 int32
 }
 
 // Init builds the server
@@ -43,6 +44,7 @@ func Init() *Server {
 	s := &Server{
 		GoServer: &goserver.GoServer{},
 		curr:     int32(-1),
+		curr2:    int32(-1),
 	}
 	return s
 }
@@ -142,7 +144,7 @@ func (s *Server) buildPage(ctx context.Context) {
 				return
 			}
 
-			if r.GetRecord().GetRelease().GetInstanceId() != s.curr {
+			if r.GetRecord().GetRelease().GetInstanceId() != s.curr || rec.GetRecord().GetRelease().GetInstanceId() != s.curr2 {
 				extra := ""
 				if r.GetRecord().GetRelease().GetFormatQuantity() > 1 {
 					extra = fmt.Sprintf("{Disk %v}", r.GetDisk())
@@ -168,7 +170,7 @@ func (s *Server) buildPage(ctx context.Context) {
 				}
 				artist2 := "Unknown"
 				if len(rec.GetRecord().GetRelease().GetArtists()) > 0 {
-					artist2 = r.GetRecord().GetRelease().GetArtists()[0].GetName()
+					artist2 = rec.GetRecord().GetRelease().GetArtists()[0].GetName()
 				}
 
 				url := "https://secure.gravatar.com/avatar/d44e93769ea7b6bada5578bb0f48f76f?s=300&r=pg&d=mm"
@@ -183,6 +185,7 @@ func (s *Server) buildPage(ctx context.Context) {
 				err := s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), artist, url, extra, r.GetRecord().GetRelease().GetInstanceId(), rec.GetRecord().GetRelease().GetTitle(), artist2, url2)
 				if err == nil {
 					s.curr = r.GetRecord().GetRelease().GetInstanceId()
+					s.curr2 = rec.GetRecord().GetRelease().GetInstanceId()
 				} else {
 					s.CtxLog(ctx, fmt.Sprintf("Bad build: %v", err))
 				}
@@ -271,12 +274,12 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		return fmt.Errorf("Bad convert of (%v) %v: %v -> %v", id, image, err2, string(output))
 	}
 
-	err = exec.Command("curl", image2, "-o", "/media/scratch/display/image-raw.jpeg").Run()
+	err = exec.Command("curl", image2, "-o", "/media/scratch/display/image-raw2.jpeg").Run()
 	if err != nil {
 		activity.With(prometheus.Labels{"message": fmt.Sprintf("DOWNLOAD: %v", err)}).Inc()
 		return fmt.Errorf("Bad download: %v", err)
 	}
-	output, err2 = exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw.jpeg", "-resize", "300x300", "/media/scratch/display/image2.jpeg").CombinedOutput()
+	output, err2 = exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw2.jpeg", "-resize", "300x300", "/media/scratch/display/image2.jpeg").CombinedOutput()
 	if err2 != nil {
 		activity.With(prometheus.Labels{"message": fmt.Sprintf("CONVERT: %v", err2)}).Inc()
 		return fmt.Errorf("Bad convert of (%v) %v: %v -> %v", id, image, err2, string(output))
