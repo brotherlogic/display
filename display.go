@@ -180,7 +180,7 @@ func (s *Server) buildPage(ctx context.Context) {
 
 				url2 := "https://secure.gravatar.com/avatar/d44e93769ea7b6bada5578bb0f48f76f?s=300&r=pg&d=mm"
 				if len(rec.GetRecord().GetRelease().GetImages()) > 0 {
-					url = rec.GetRecord().GetRelease().GetImages()[0].GetUri()
+					url2 = rec.GetRecord().GetRelease().GetImages()[0].GetUri()
 				}
 				err := s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), artist, url, extra, r.GetRecord().GetRelease().GetInstanceId(), rec.GetRecord().GetRelease().GetTitle(), artist2, url2)
 				if err == nil {
