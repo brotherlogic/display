@@ -172,19 +172,40 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	</style>
 	<meta http-equiv="refresh" content="60">
       <body>
-		<div id="container">	
-			<div class="artwork"></div>
-			<section id="main">
-				<center>
-				<img class="art_image" src="image.jpeg" width=300" height="300">
-				<div class="text">
-					<div class="artist">{{.Artist}}</div>
-					<div class="album">{{.Title}}</div>
-					<div class="number">{{.Extra}}</div>
-				</div>		
-				</center>
-			</section>		
-		</div>
+		<table>
+			<tr>
+				<td>
+					<div id="container">	
+						<div class="artwork"></div>
+						<section id="main">
+							<center>
+							<img class="art_image" src="image.jpeg" width=300" height="300">
+							<div class="text">
+								<div class="artist">{{.Artist}}</div>
+								<div class="album">{{.Title}}</div>
+								<div class="number">{{.Extra}}</div>
+							</div>		
+							</center>
+						</section>		
+					</div>
+				</td>
+				<td>
+					<div id="container">	
+						<div class="artwork"></div>
+						<section id="main">
+							<center>
+							<img class="art_image" src="image.jpeg" width=300" height="300">
+							<div class="text">
+								<div class="artist">{{.Artist}}</div>
+								<div class="album">{{.Title}}</div>
+								<div class="number">{{.Extra}}</div>
+							</div>		
+							</center>
+						</section>		
+					</div>
+				</td>
+			</tr>
+		</table>
 	</body>
 	</html>`)
 	if err != nil {
