@@ -263,7 +263,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	buildStyle()
 	buildCssNorm()
 
-	err = exec.Command("curl", image, "-o", "/media/scratch/display/image-raw.jpeg").Run()
+	err = exec.Command("wget", image, "-o", "/media/scratch/display/image-raw.jpeg").Run()
 	if err != nil {
 		activity.With(prometheus.Labels{"message": fmt.Sprintf("DOWNLOAD: %v", err)}).Inc()
 		return fmt.Errorf("Bad download: %v", err)
@@ -274,7 +274,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		return fmt.Errorf("Bad convert of (%v) %v: %v -> %v", id, image, err2, string(output))
 	}
 
-	err = exec.Command("curl", image2, "-o", "/media/scratch/display/image-raw2.jpeg").Run()
+	err = exec.Command("wget", image2, "-o", "/media/scratch/display/image-raw2.jpeg").Run()
 	if err != nil {
 		activity.With(prometheus.Labels{"message": fmt.Sprintf("DOWNLOAD: %v", err)}).Inc()
 		return fmt.Errorf("Bad download: %v", err)
