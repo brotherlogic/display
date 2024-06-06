@@ -128,6 +128,7 @@ func (s *Server) buildPage(ctx context.Context) {
 			if err != nil {
 				return
 			}
+			defer conn2.Close()
 			client2 := pbrc.NewRecordCleanerServiceClient(conn2)
 			toclean, err := client2.GetClean(ctx, &pbrc.GetCleanRequest{})
 			if err != nil {
@@ -138,6 +139,7 @@ func (s *Server) buildPage(ctx context.Context) {
 			if err != nil {
 				return
 			}
+			defer conn3.Close()
 			client3 := rcpb.NewRecordCollectionServiceClient(conn3)
 			rec, err := client3.GetRecord(ctx, &rcpb.GetRecordRequest{InstanceId: toclean.GetInstanceId()})
 			if err != nil {
