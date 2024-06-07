@@ -126,7 +126,7 @@ func (s *Server) buildPage(ctx context.Context) {
 		if err == nil {
 			conn2, err := s.FDialServer(ctx, "recordcleaner")
 			if err != nil {
-				if status.Code(err) == codes.NotFound {
+				if status.Code(err) == codes.FailedPrecondition {
 					artist := "Unknown"
 					if len(r.GetRecord().GetRelease().GetArtists()) > 0 {
 						artist = r.GetRecord().GetRelease().GetArtists()[0].GetName()
