@@ -125,6 +125,9 @@ func (s *Server) buildPage(ctx context.Context) {
 
 		if err == nil {
 			conn2, err := s.FDialServer(ctx, "recordcleaner")
+			defer conn2.Close()
+			client2 := pbrc.NewRecordCleanerServiceClient(conn2)
+			toclean, err := client2.GetClean(ctx, &pbrc.GetCleanRequest{})
 			if err != nil {
 				if status.Code(err) == codes.FailedPrecondition {
 					artist := "Unknown"
@@ -162,12 +165,6 @@ func (s *Server) buildPage(ctx context.Context) {
 					}
 
 				}
-				return
-			}
-			defer conn2.Close()
-			client2 := pbrc.NewRecordCleanerServiceClient(conn2)
-			toclean, err := client2.GetClean(ctx, &pbrc.GetCleanRequest{})
-			if err != nil {
 				return
 			}
 
