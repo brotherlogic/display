@@ -126,6 +126,42 @@ func (s *Server) buildPage(ctx context.Context) {
 		if err == nil {
 			conn2, err := s.FDialServer(ctx, "recordcleaner")
 			if err != nil {
+				if status.Code(err) == codes.NotFound {
+					artist := "Unknown"
+					if len(r.GetRecord().GetRelease().GetArtists()) > 0 {
+						artist = r.GetRecord().GetRelease().GetArtists()[0].GetName()
+					}
+					url := "https://secure.gravatar.com/avatar/d44e93769ea7b6bada5578bb0f48f76f?s=300&r=pg&d=mm"
+					if len(r.GetRecord().GetRelease().GetImages()) > 0 {
+						url = r.GetRecord().GetRelease().GetImages()[0].GetUri()
+					}
+					extra := ""
+					if r.GetRecord().GetRelease().GetFormatQuantity() > 1 {
+						extra = fmt.Sprintf("{Disk %v}", r.GetDisk())
+					}
+
+					if r.GetRecord().GetMetadata().GetCategory() == rcpb.ReleaseMetadata_STAGED_TO_SELL {
+						extra += " {SALE}"
+					}
+
+					if r.GetRecord().GetMetadata().GetCategory() == rcpb.ReleaseMetadata_UNKNOWN {
+						extra += " (Want)"
+					}
+					if r.GetRecord().GetMetadata().GetFiledUnder() == rcpb.ReleaseMetadata_FILE_DIGITAL ||
+						r.GetRecord().GetMetadata().GetFiledUnder() == rcpb.ReleaseMetadata_FILE_CD {
+						extra += " (Digital)"
+					}
+
+					extra = strings.TrimSpace(extra)
+
+					err := s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), artist, url, extra, r.GetRecord().GetRelease().GetInstanceId(), "-", "NOTHING", "https://secure.gravatar.com/avatar/d44e93769ea7b6bada5578bb0f48f76f?s=300&r=pg&d=mm")
+					if err == nil {
+						s.curr = r.GetRecord().GetRelease().GetInstanceId()
+					} else {
+						s.CtxLog(ctx, fmt.Sprintf("Bad build: %v", err))
+					}
+
+				}
 				return
 			}
 			defer conn2.Close()
