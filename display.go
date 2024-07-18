@@ -162,6 +162,7 @@ func (s *Server) buildPage(ctx context.Context) {
 				} else {
 					s.CtxLog(ctx, fmt.Sprintf("Bad build: %v", err))
 				}
+				s.curr2 = -1
 			}
 
 			conn3, err := s.FDialServer(ctx, "recordcollection")
