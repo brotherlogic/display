@@ -7,8 +7,8 @@ toolchain go1.23.0
 require (
 	github.com/brotherlogic/filecopier v0.0.0-20240928043120-47a6c1460662
 	github.com/brotherlogic/goserver v0.0.0-20240826215223-fccbac46b3d4
-	github.com/brotherlogic/recordcleaner v0.0.0-20241004172423-afec65d437ac
-	github.com/brotherlogic/recordcollection v0.0.0-20241004152505-b8d8b7f13779
+	github.com/brotherlogic/recordcleaner v0.0.0-20241004182407-4590f1812b4d
+	github.com/brotherlogic/recordcollection v0.0.0-20241004182417-33d231509edf
 	github.com/brotherlogic/recordgetter v0.0.0-20240928231721-69b3309fcda8
 	github.com/golang/protobuf v1.5.4
 	github.com/prometheus/client_golang v1.20.4
