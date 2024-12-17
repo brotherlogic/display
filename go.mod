@@ -3,7 +3,7 @@ module github.com/brotherlogic/display
 go 1.23.2
 
 require (
-	github.com/brotherlogic/filecopier v0.0.0-20241217013549-60c4319d4a1a
+	github.com/brotherlogic/filecopier v0.0.0-20241217014139-744b080ae0dc
 	github.com/brotherlogic/goserver v0.0.0-20240826215223-fccbac46b3d4
 	github.com/brotherlogic/recordcleaner v0.0.0-20241217013652-08360b762be8
 	github.com/brotherlogic/recordcollection v0.0.0-20241211050319-c5d6cfad7bbb
@@ -17,7 +17,7 @@ require (
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/brotherlogic/buildserver v0.0.0-20241208224834-19a4e6d71fc7 // indirect
+	github.com/brotherlogic/buildserver v0.0.0-20241217013905-c06e5382fd2a // indirect
 	github.com/brotherlogic/datastore v0.0.0-20241208194408-d9abbc5752ad // indirect
 	github.com/brotherlogic/discovery v0.0.0-20241109204028-02908558af09 // indirect
 	github.com/brotherlogic/dstore v0.0.0-20241212193119-ab9daef0b7c9 // indirect
