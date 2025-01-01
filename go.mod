@@ -3,7 +3,7 @@ module github.com/brotherlogic/display
 go 1.23.2
 
 require (
-	github.com/brotherlogic/filecopier v0.0.0-20250101053124-4f201202fdf0
+	github.com/brotherlogic/filecopier v0.0.0-20250101062121-84825e8fda35
 	github.com/brotherlogic/goserver v0.0.0-20240826215223-fccbac46b3d4
 	github.com/brotherlogic/recordcleaner v0.0.0-20250101052003-f016f389f674
 	github.com/brotherlogic/recordcollection v0.0.0-20250101051948-b26e38edf4de
@@ -26,8 +26,8 @@ require (
 	github.com/brotherlogic/gobuildslave v0.0.0-20241111085829-8d4e5069a7fd // indirect
 	github.com/brotherlogic/godiscogs v0.0.0-20240823195726-9a8d322e6898 // indirect
 	github.com/brotherlogic/keystore v0.0.0-20240508161349-814b3200b126 // indirect
-	github.com/brotherlogic/lock v0.0.0-20250101051643-c150f8ce35bb // indirect
-	github.com/brotherlogic/logging v0.0.0-20250101053028-a2455ae003a3 // indirect
+	github.com/brotherlogic/lock v0.0.0-20250101061913-54846395dc86 // indirect
+	github.com/brotherlogic/logging v0.0.0-20250101063026-39b8ea28122b // indirect
 	github.com/brotherlogic/monitor v0.0.0-20221025152653-c10877c5f9e6 // indirect
 	github.com/brotherlogic/versionserver v0.0.0-20221025154054-c9bcd41be2f2 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
