@@ -6,8 +6,8 @@ require (
 	github.com/brotherlogic/filecopier v0.0.0-20250102125703-b1de1f2806cd
 	github.com/brotherlogic/goserver v0.0.0-20240826215223-fccbac46b3d4
 	github.com/brotherlogic/recordcleaner v0.0.0-20250102125207-6008be05a009
-	github.com/brotherlogic/recordcollection v0.0.0-20250102125839-771574f4ef05
-	github.com/brotherlogic/recordgetter v0.0.0-20250102115637-365dba684961
+	github.com/brotherlogic/recordcollection v0.0.0-20250102135500-e23fc77d289b
+	github.com/brotherlogic/recordgetter v0.0.0-20250102135604-20b67cdca8ba
 	github.com/golang/protobuf v1.5.4
 	github.com/prometheus/client_golang v1.20.5
 	golang.org/x/net v0.33.0

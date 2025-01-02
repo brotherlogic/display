@@ -30,10 +30,10 @@ github.com/brotherlogic/monitor v0.0.0-20221025152653-c10877c5f9e6 h1:hxu2T9JspE
 github.com/brotherlogic/monitor v0.0.0-20221025152653-c10877c5f9e6/go.mod h1:babny4VO2GqFwjXqhJsP4a6la4XJeMT6f4BgLBPq4G8=
 github.com/brotherlogic/recordcleaner v0.0.0-20250102125207-6008be05a009 h1:RUjXMRFdG3SdktBMOwc5LhXnCvA1IDOXEhx5fJRIHYU=
 github.com/brotherlogic/recordcleaner v0.0.0-20250102125207-6008be05a009/go.mod h1:lyE/4AsxV/IqQ7HmZAYmToXHGOSEgeqnv/BGCr+f8b4=
-github.com/brotherlogic/recordcollection v0.0.0-20250102125839-771574f4ef05 h1:IaKLM/GA+VDSaCsWRTm1U/rbuRSjfXT9kAy2us5r83U=
-github.com/brotherlogic/recordcollection v0.0.0-20250102125839-771574f4ef05/go.mod h1:+mwNTZunBzOoF4Q8Id6Q+kJMQYqUINFxz5QQY0MSa4Q=
-github.com/brotherlogic/recordgetter v0.0.0-20250102115637-365dba684961 h1:gLb2Wt2GLyd9u35oBbvsDPXp5uJbAeDKKNc5KX8q+0c=
-github.com/brotherlogic/recordgetter v0.0.0-20250102115637-365dba684961/go.mod h1:Yrph2lCO75bjMUv2dhPhaUVluLfadirUNSDNgoC0Spg=
+github.com/brotherlogic/recordcollection v0.0.0-20250102135500-e23fc77d289b h1:UEqAucxcuB9YGB/0JJlpLknPmo2XFJka0yVCAhH1ogQ=
+github.com/brotherlogic/recordcollection v0.0.0-20250102135500-e23fc77d289b/go.mod h1:mAIiD3UgHrkB24ki1B776i+j7c8gFCnWfKIqTlXLUbk=
+github.com/brotherlogic/recordgetter v0.0.0-20250102135604-20b67cdca8ba h1:3nmvRRgpt8C7gJ2V/Oy2sQgpIrAQpFkfQD88jtzIF9Q=
+github.com/brotherlogic/recordgetter v0.0.0-20250102135604-20b67cdca8ba/go.mod h1:bjAivl5annKGMl093hHa8FTDbgm9bIw9TaPTJPv9Ktg=
 github.com/brotherlogic/versionserver v0.0.0-20221025154054-c9bcd41be2f2 h1:YjFE4Sa+wwbl4yJwJaMQVeA4CMzLIDbbIuSMdsEp5/w=
 github.com/brotherlogic/versionserver v0.0.0-20221025154054-c9bcd41be2f2/go.mod h1:ODrbMDhG+yOp2vie9vE4oaKsKhILDralZMr7PJ4HrJY=
 github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs=
