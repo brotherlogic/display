@@ -6,8 +6,8 @@ require (
 	github.com/brotherlogic/filecopier v0.0.0-20250102152848-cfcd8422f245
 	github.com/brotherlogic/goserver v0.0.0-20240826215223-fccbac46b3d4
 	github.com/brotherlogic/recordcleaner v0.0.0-20250102125207-6008be05a009
-	github.com/brotherlogic/recordcollection v0.0.0-20250102155308-c8441cad8d46
-	github.com/brotherlogic/recordgetter v0.0.0-20250102135604-20b67cdca8ba
+	github.com/brotherlogic/recordcollection v0.0.0-20250102165449-514d5d1cb403
+	github.com/brotherlogic/recordgetter v0.0.0-20250102165530-94fc3c60d87e
 	github.com/golang/protobuf v1.5.4
 	github.com/prometheus/client_golang v1.20.5
 	golang.org/x/net v0.33.0
@@ -27,7 +27,7 @@ require (
 	github.com/brotherlogic/godiscogs v0.0.0-20240823195726-9a8d322e6898 // indirect
 	github.com/brotherlogic/keystore v0.0.0-20240508161349-814b3200b126 // indirect
 	github.com/brotherlogic/lock v0.0.0-20250102095328-68742c9aa162 // indirect
-	github.com/brotherlogic/logging v0.0.0-20250102123146-27516176e438 // indirect
+	github.com/brotherlogic/logging v0.0.0-20250102155919-61ed16db70ce // indirect
 	github.com/brotherlogic/monitor v0.0.0-20221025152653-c10877c5f9e6 // indirect
 	github.com/brotherlogic/versionserver v0.0.0-20221025154054-c9bcd41be2f2 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
