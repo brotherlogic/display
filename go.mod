@@ -5,7 +5,7 @@ go 1.23.2
 require (
 	github.com/brotherlogic/filecopier v0.0.0-20250113225319-15cf169fa41f
 	github.com/brotherlogic/goserver v0.0.0-20240826215223-fccbac46b3d4
-	github.com/brotherlogic/recordcleaner v0.0.0-20250113224613-27948e74aa39
+	github.com/brotherlogic/recordcleaner v0.0.0-20250113225947-fe1ce111537c
 	github.com/brotherlogic/recordcollection v0.0.0-20250113224223-b98c043f6531
 	github.com/brotherlogic/recordgetter v0.0.0-20250113224826-6bc0f8ccaf42
 	github.com/golang/protobuf v1.5.4
