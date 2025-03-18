@@ -3,9 +3,9 @@ module github.com/brotherlogic/display
 go 1.23.2
 
 require (
-	github.com/brotherlogic/filecopier v0.0.0-20250318045832-e2ae3d532ba7
+	github.com/brotherlogic/filecopier v0.0.0-20250318054337-d27a92d7c9a9
 	github.com/brotherlogic/goserver v0.0.0-20250123145056-95c6fbb2310a
-	github.com/brotherlogic/recordcleaner v0.0.0-20250318042637-05617d583e85
+	github.com/brotherlogic/recordcleaner v0.0.0-20250318052931-d5bacaa55e77
 	github.com/brotherlogic/recordcollection v0.0.0-20250227174213-ce20ec909d87
 	github.com/brotherlogic/recordgetter v0.0.0-20250315222357-4b27be1cfe04
 	github.com/golang/protobuf v1.5.4
@@ -17,17 +17,17 @@ require (
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/brotherlogic/buildserver v0.0.0-20250318022523-f24f497010b0 // indirect
+	github.com/brotherlogic/buildserver v0.0.0-20250318051724-42b03ad66067 // indirect
 	github.com/brotherlogic/datastore v0.0.0-20250313015544-917b63bdd6ff // indirect
 	github.com/brotherlogic/discovery v0.0.0-20241109204028-02908558af09 // indirect
-	github.com/brotherlogic/dstore v0.0.0-20250318043621-0a699f019866 // indirect
-	github.com/brotherlogic/githubcard v0.0.0-20250318043130-1f0cdbc45ae3 // indirect
+	github.com/brotherlogic/dstore v0.0.0-20250318060615-68d1adc8760a // indirect
+	github.com/brotherlogic/githubcard v0.0.0-20250318055855-d8984fc33004 // indirect
 	github.com/brotherlogic/githubridge v0.2849.0 // indirect
-	github.com/brotherlogic/gobuildslave v0.0.0-20250318051317-979490342410 // indirect
+	github.com/brotherlogic/gobuildslave v0.0.0-20250318060301-ced35bb35ea2 // indirect
 	github.com/brotherlogic/godiscogs v0.0.0-20250131163651-1e34c776a68e // indirect
 	github.com/brotherlogic/keystore v0.0.0-20240508161349-814b3200b126 // indirect
-	github.com/brotherlogic/lock v0.0.0-20250318034726-1418167423e1 // indirect
-	github.com/brotherlogic/logging v0.0.0-20250318043639-0cbd7b7f8515 // indirect
+	github.com/brotherlogic/lock v0.0.0-20250318062050-a3e98a5a1f77 // indirect
+	github.com/brotherlogic/logging v0.0.0-20250318060656-d314ff4b5d85 // indirect
 	github.com/brotherlogic/monitor v0.0.0-20221025152653-c10877c5f9e6 // indirect
 	github.com/brotherlogic/versionserver v0.0.0-20221025154054-c9bcd41be2f2 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
