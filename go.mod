@@ -3,9 +3,9 @@ module github.com/brotherlogic/display
 go 1.23.2
 
 require (
-	github.com/brotherlogic/filecopier v0.0.0-20250319063257-fd470fa516ba
+	github.com/brotherlogic/filecopier v0.0.0-20250319072637-9c899f2e253d
 	github.com/brotherlogic/goserver v0.0.0-20250123145056-95c6fbb2310a
-	github.com/brotherlogic/recordcleaner v0.0.0-20250319071449-aabc557d0b4a
+	github.com/brotherlogic/recordcleaner v0.0.0-20250319072620-bfd93c501dca
 	github.com/brotherlogic/recordcollection v0.0.0-20250227174213-ce20ec909d87
 	github.com/brotherlogic/recordgetter v0.0.0-20250315222357-4b27be1cfe04
 	github.com/golang/protobuf v1.5.4
