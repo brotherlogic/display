@@ -3,7 +3,7 @@ module github.com/brotherlogic/display
 go 1.23.2
 
 require (
-	github.com/brotherlogic/filecopier v0.0.0-20250320135517-90bddc660bf4
+	github.com/brotherlogic/filecopier v0.0.0-20250320140803-2725dbc378c1
 	github.com/brotherlogic/goserver v0.0.0-20250123145056-95c6fbb2310a
 	github.com/brotherlogic/recordcleaner v0.0.0-20250320140333-78a08ea1080b
 	github.com/brotherlogic/recordcollection v0.0.0-20250227174213-ce20ec909d87
@@ -17,13 +17,13 @@ require (
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/brotherlogic/buildserver v0.0.0-20250320135930-9ac4c7d442f2 // indirect
+	github.com/brotherlogic/buildserver v0.0.0-20250320140914-73270b62e96d // indirect
 	github.com/brotherlogic/datastore v0.0.0-20250313015544-917b63bdd6ff // indirect
 	github.com/brotherlogic/discovery v0.0.0-20241109204028-02908558af09 // indirect
 	github.com/brotherlogic/dstore v0.0.0-20250320135932-47eb24f63e7a // indirect
-	github.com/brotherlogic/githubcard v0.0.0-20250320135653-69ad56c0baac // indirect
+	github.com/brotherlogic/githubcard v0.0.0-20250320140602-4a2e59fbdf4a // indirect
 	github.com/brotherlogic/githubridge v0.2850.0 // indirect
-	github.com/brotherlogic/gobuildslave v0.0.0-20250320140048-3ef1245cf631 // indirect
+	github.com/brotherlogic/gobuildslave v0.0.0-20250320145447-725ee8a169cf // indirect
 	github.com/brotherlogic/godiscogs v0.0.0-20250131163651-1e34c776a68e // indirect
 	github.com/brotherlogic/keystore v0.0.0-20240508161349-814b3200b126 // indirect
 	github.com/brotherlogic/lock v0.0.0-20250320140358-ce44168b5e17 // indirect
