@@ -156,13 +156,14 @@ func (s *Server) buildPage(ctx context.Context) {
 
 				extra = strings.TrimSpace(extra)
 
-				err := s.handler(ctx, r.GetRecord().GetRelease().GetTitle(), artist, url, extra, r.GetRecord().GetRelease().GetInstanceId(), "-", fmt.Sprintf("%v", err), "https://secure.gravatar.com/avatar/d44e93769ea7b6bada5578bb0f48f76f?s=300&r=pg&d=mm")
+				err := s.handlerSingle(ctx, r.GetRecord().GetRelease().GetTitle(), artist, url, extra, r.GetRecord().GetRelease().GetInstanceId())
 				if err == nil {
 					s.curr = r.GetRecord().GetRelease().GetInstanceId()
 				} else {
 					s.CtxLog(ctx, fmt.Sprintf("Bad build: %v", err))
 				}
 				s.curr2 = -1
+				return
 			}
 
 			conn3, err := s.FDialServer(ctx, "recordcollection")
@@ -375,6 +376,117 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		InputFile:    "/media/scratch/display/image2.jpeg",
 		OutputServer: "mdisplay",
 		OutputFile:   "/home/simon/image2.jpeg",
+		Override:     true,
+	})
+	if err != nil {
+		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_IMAGE: %v", err)}).Inc()
+		return err
+	}
+
+	activity.With(prometheus.Labels{"message": "SUCCESS"}).Inc()
+	return nil
+}
+func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra string, id int32) error {
+	t := template.New("page")
+	t, err := t.Parse(`<html>
+	<link rel="stylesheet" href="normalize.css">
+	<link rel="stylesheet" href="style.css">
+	<style>
+		.artwork {
+			background-image: url("image.jpeg");
+		}
+	</style>
+	<meta http-equiv="refresh" content="60">
+      <body>
+		<div id="container">	
+			<div class="artwork"></div>
+			<section id="main">
+				<center>
+				<img class="art_image" src="image.jpeg" width=300" height="300">
+				<div class="text">
+					<div class="artist">{{.Artist}}</div>
+					<div class="album">{{.Title}}</div>
+					<div class="number">{{.Extra}}</div>
+				</div>		
+				</center>
+			</section>		
+		</div>
+	</body>
+	</html>`)
+	if err != nil {
+		s.CtxLog(ctx, fmt.Sprintf("PARSED: %v", err))
+	}
+
+	os.MkdirAll("/media/scratch/display/", 0777)
+	os.Create("/media/scratch/display/display.html")
+	f, _ := os.OpenFile("/media/scratch/display/display.html", os.O_WRONLY, 0777)
+	defer f.Close()
+
+	t.Execute(f, &temp{
+		Title:  title,
+		Artist: strings.TrimSpace(convertArtist(artist)),
+		Image:  image,
+		Extra:  extra})
+	buildStyle()
+	buildCssNorm()
+
+	err = exec.Command("curl", image, "-o", "/media/scratch/display/image-raw.jpeg").Run()
+	if err != nil {
+		activity.With(prometheus.Labels{"message": fmt.Sprintf("DOWNLOAD: %v", err)}).Inc()
+		return fmt.Errorf("Bad download: %v", err)
+	}
+	output, err2 := exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw.jpeg", "-resize", "300x300", "/media/scratch/display/image.jpeg").CombinedOutput()
+	if err2 != nil {
+		activity.With(prometheus.Labels{"message": fmt.Sprintf("CONVERT: %v", err2)}).Inc()
+		return fmt.Errorf("Bad convert of (%v) %v: %v -> %v", id, image, err2, string(output))
+	}
+
+	conn, err := s.FDialServer(ctx, "filecopier")
+	if err != nil {
+		activity.With(prometheus.Labels{"message": fmt.Sprintf("DIAL_COPIER: %v", err)}).Inc()
+		return err
+	}
+	defer conn.Close()
+
+	fc := fcpb.NewFileCopierServiceClient(conn)
+	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
+		InputServer:  s.Registry.Identifier,
+		InputFile:    "/media/scratch/display/display.html",
+		OutputServer: "mdisplay",
+		OutputFile:   "/home/simon/index.html",
+		Override:     true,
+	})
+	if err != nil {
+		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_HTML: %v", err)}).Inc()
+		return err
+	}
+	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
+		InputServer:  s.Registry.Identifier,
+		InputFile:    "/media/scratch/display/style.css",
+		OutputServer: "mdisplay",
+		OutputFile:   "/home/simon/style.css",
+		Override:     true,
+	})
+	if err != nil {
+		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_CSS: %v", err)}).Inc()
+		return err
+	}
+	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
+		InputServer:  s.Registry.Identifier,
+		InputFile:    "/media/scratch/display/normalize.css",
+		OutputServer: "mdisplay",
+		OutputFile:   "/home/simon/normalize.css",
+		Override:     true,
+	})
+	if err != nil {
+		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_NORM: %v", err)}).Inc()
+		return err
+	}
+	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
+		InputServer:  s.Registry.Identifier,
+		InputFile:    "/media/scratch/display/image.jpeg",
+		OutputServer: "mdisplay",
+		OutputFile:   "/home/simon/image.jpeg",
 		Override:     true,
 	})
 	if err != nil {
