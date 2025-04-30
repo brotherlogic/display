@@ -128,7 +128,7 @@ func (s *Server) buildPage(ctx context.Context) {
 			defer conn2.Close()
 			client2 := pbrc.NewRecordCleanerServiceClient(conn2)
 			toclean, err := client2.GetClean(ctx, &pbrc.GetCleanRequest{})
-			if err != nil {
+			if err != nil && status.Code(err) != codes.FailedPrecondition {
 				artist := "Unknown"
 				if len(r.GetRecord().GetRelease().GetArtists()) > 0 {
 					artist = r.GetRecord().GetRelease().GetArtists()[0].GetName()
