@@ -427,7 +427,7 @@ func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra 
 		Artist: strings.TrimSpace(convertArtist(artist)),
 		Image:  image,
 		Extra:  extra})
-	buildStyle()
+	buildStyleSingle()
 	buildCssNorm()
 
 	err = exec.Command("curl", image, "-o", "/media/scratch/display/image-raw.jpeg").Run()
