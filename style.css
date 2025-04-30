@@ -1,7 +1,7 @@
 @font-face {
 	font-family: 'proxima-nova';
 	src: url('../wp-content/themes/chorus/fonts/proximanova-regular.woff') format('woff'),
-		 url('../wp-content/themes/chorus/fonts/proximanova-regular.woff2') format('woff2');
+		url('../wp-content/themes/chorus/fonts/proximanova-regular.woff2') format('woff2');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -9,7 +9,7 @@
 @font-face {
 	font-family: 'proxima-nova';
 	src: url('../wp-content/themes/chorus/fonts/proximanova-italic.woff') format('woff'),
-		 url('../wp-content/themes/chorus/fonts/proximanova-italic.woff2') format('woff2');
+		url('../wp-content/themes/chorus/fonts/proximanova-italic.woff2') format('woff2');
 	font-weight: normal;
 	font-style: italic;
 }
@@ -17,7 +17,7 @@
 @font-face {
 	font-family: 'proxima-nova';
 	src: url('../wp-content/themes/chorus/fonts/proximanova-bold.woff') format('woff'),
-		 url('../wp-content/themes/chorus/fonts/proximanova-bold.woff2') format('woff2');
+		url('../wp-content/themes/chorus/fonts/proximanova-bold.woff2') format('woff2');
 	font-weight: bold;
 	font-style: normal;
 }
@@ -25,7 +25,7 @@
 @font-face {
 	font-family: 'proxima-nova';
 	src: url('../wp-content/themes/chorus/fonts/proximanova-boldit.woff') format('woff'),
-		 url('../wp-content/themes/chorus/fonts/proximanova-boldit.woff2') format('woff2');
+		url('../wp-content/themes/chorus/fonts/proximanova-boldit.woff2') format('woff2');
 	font-weight: bold;
 	font-style: italic;
 }
@@ -33,14 +33,14 @@
 @font-face {
 	font-family: 'proxima-nova';
 	src: url('../wp-content/themes/chorus/fonts/proximanova-light.woff') format('woff'),
-		 url('../wp-content/themes/chorus/fonts/proximanova-light.woff2') format('woff2');
+		url('../wp-content/themes/chorus/fonts/proximanova-light.woff2') format('woff2');
 	font-weight: 300;
 }
 
 @font-face {
 	font-family: 'myriad-pro';
 	src: url('../wp-content/themes/chorus/fonts/mp.woff') format('woff'),
-		 url('../wp-content/themes/chorus/fonts/mp.woff2') format('woff2');
+		url('../wp-content/themes/chorus/fonts/mp.woff2') format('woff2');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -48,7 +48,7 @@
 @font-face {
 	font-family: 'myriad-pro';
 	src: url('../wp-content/themes/chorus/fonts/mp-italic.woff') format('woff'),
-		 url('../wp-content/themes/chorus/fonts/mp-italic.woff2') format('woff2');
+		url('../wp-content/themes/chorus/fonts/mp-italic.woff2') format('woff2');
 	font-weight: normal;
 	font-style: italic;
 }
@@ -56,7 +56,7 @@
 @font-face {
 	font-family: 'myriad-pro';
 	src: url('../wp-content/themes/chorus/fonts/mp-bold.woff') format('woff'),
-		 url('../wp-content/themes/chorus/fonts/mp-bold.woff2') format('woff2');
+		url('../wp-content/themes/chorus/fonts/mp-bold.woff2') format('woff2');
 	font-weight: bold;
 	font-style: normal;
 }
@@ -71,7 +71,7 @@
 @font-face {
 	font-family: 'myriad-pro';
 	src: url('../wp-content/themes/chorus/fonts/mp-semibold.woff') format('woff'),
-		 url('../wp-content/themes/chorus/fonts/mp-semibold.woff2') format('woff2');
+		url('../wp-content/themes/chorus/fonts/mp-semibold.woff2') format('woff2');
 	font-weight: 600;
 	font-style: normal;
 }
@@ -79,7 +79,7 @@
 body {
 	background: #000;
 	color: #fff;
-	font-family: "proxima-nova", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", "Lucida Sans", Tahoma, sans-serif; 
+	font-family: "proxima-nova", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", "Lucida Sans", Tahoma, sans-serif;
 }
 
 #container {
@@ -89,12 +89,13 @@ body {
 	border: 1px solid #000;
 	position: relative;
 }
+
 #container.last_played {
 	background: #111111;
 }
 
 h1 {
-	font-family: 'myriad-pro','Gill Sans','Gill Sans MT',Calibri,'Lucida Grande','Lucida Sans Unicode','Lucida Sans',Tahoma,sans-serif;
+	font-family: 'myriad-pro', 'Gill Sans', 'Gill Sans MT', Calibri, 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 	font-size: 18px;
 	margin-top: 0px;
 	margin-bottom: 10px;
@@ -115,6 +116,7 @@ h1 {
 	width: 100%;
 	overflow: hidden;
 }
+
 .art_image {
 	width: 500px;
 	border-radius: 6px;
@@ -172,7 +174,7 @@ h1 {
 }
 
 .user {
-	font-family: 'myriad-pro','Gill Sans','Gill Sans MT',Calibri,'Lucida Grande','Lucida Sans Unicode','Lucida Sans',Tahoma,sans-serif;
+	font-family: 'myriad-pro', 'Gill Sans', 'Gill Sans MT', Calibri, 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 	font-weight: bold;
 	font-size: 32px;
 	margin: 13px 0px 0px 20px;
@@ -181,7 +183,7 @@ h1 {
 .list {
 	margin-left: 20px;
 	position: relative;
-	font-family: 'myriad-pro','Gill Sans','Gill Sans MT',Calibri,'Lucida Grande','Lucida Sans Unicode','Lucida Sans',Tahoma,sans-serif;
+	font-family: 'myriad-pro', 'Gill Sans', 'Gill Sans MT', Calibri, 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;
 	color: #D0D0D0;
 }
 
@@ -197,14 +199,16 @@ h1 {
 	text-transform: uppercase;
 	font-size: 13px;
 	font-weight: bold;
-	display:flex;
-	justify-content:center;
-	align-items:center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	position: relative;
 }
+
 .stat_box:last-of-type {
 	margin-right: 20px;
 }
+
 .stat_box .track {
 	font-size: 24px;
 	text-transform: none;
@@ -215,18 +219,21 @@ h1 {
 	-webkit-box-orient: vertical;
 	margin-top: 0px;
 }
+
 .stat_box .scrobbles {
 	margin-top: 0px;
 	font-size: 45px;
 	color: #fff;
 	text-align: center;
 }
+
 .stat_box .artist {
 	margin-top: 8px;
 	text-transform: none;
 	font-size: 16px;
 	color: #8D9194;
 }
+
 .stat_box .header {
 	position: absolute;
 	top: 0;
@@ -238,6 +245,7 @@ h1 {
 	margin-top: 20px;
 	margin-left: 53px;
 }
+
 .top_albums {
 	width: 130px;
 	margin-left: 16px;
