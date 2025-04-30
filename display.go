@@ -402,7 +402,7 @@ func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra 
 			<div class="artwork"></div>
 			<section id="main">
 				<center>
-				<img class="art_image" src="image.jpeg" width=300" height="300">
+				<img class="art_image" src="image.jpeg" width="300" height="300">
 				<div class="text">
 					<div class="artist">{{.Artist}}</div>
 					<div class="album">{{.Title}}</div>
