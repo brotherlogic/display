@@ -166,16 +166,19 @@ func (s *Server) buildPage(ctx context.Context) {
 				return
 			}
 
+			rec := &rcpb.GetRecordResponse{}
+			if toclean.GetInstanceId() != 0 {
 			conn3, err := s.FDialServer(ctx, "recordcollection")
 			if err != nil {
 				return
 			}
 			defer conn3.Close()
 			client3 := rcpb.NewRecordCollectionServiceClient(conn3)
-			rec, err := client3.GetRecord(ctx, &rcpb.GetRecordRequest{InstanceId: toclean.GetInstanceId()})
+			rec, err = client3.GetRecord(ctx, &rcpb.GetRecordRequest{InstanceId: toclean.GetInstanceId()})
 			if err != nil {
 				return
 			}
+		}
 
 			if r.GetRecord().GetRelease().GetInstanceId() != s.curr || rec.GetRecord().GetRelease().GetInstanceId() != s.curr2 {
 				extra := ""
