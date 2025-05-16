@@ -129,7 +129,7 @@ func (s *Server) buildPage(ctx context.Context) {
 			client2 := pbrc.NewRecordCleanerServiceClient(conn2)
 			toclean, err := client2.GetClean(ctx, &pbrc.GetCleanRequest{})
 			if err != nil && status.Code(err) != codes.FailedPrecondition {
-				artist := "Unknown"
+				artist := fmt.Sprintf("%v", err)
 				if len(r.GetRecord().GetRelease().GetArtists()) > 0 {
 					artist = r.GetRecord().GetRelease().GetArtists()[0].GetName()
 				}
