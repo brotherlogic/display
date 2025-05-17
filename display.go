@@ -168,17 +168,17 @@ func (s *Server) buildPage(ctx context.Context) {
 
 			rec := &rcpb.GetRecordResponse{}
 			if toclean.GetInstanceId() != 0 {
-			conn3, err := s.FDialServer(ctx, "recordcollection")
-			if err != nil {
-				return
+				conn3, err := s.FDialServer(ctx, "recordcollection")
+				if err != nil {
+					return
+				}
+				defer conn3.Close()
+				client3 := rcpb.NewRecordCollectionServiceClient(conn3)
+				rec, err = client3.GetRecord(ctx, &rcpb.GetRecordRequest{InstanceId: toclean.GetInstanceId()})
+				if err != nil {
+					return
+				}
 			}
-			defer conn3.Close()
-			client3 := rcpb.NewRecordCollectionServiceClient(conn3)
-			rec, err = client3.GetRecord(ctx, &rcpb.GetRecordRequest{InstanceId: toclean.GetInstanceId()})
-			if err != nil {
-				return
-			}
-		}
 
 			if r.GetRecord().GetRelease().GetInstanceId() != s.curr || rec.GetRecord().GetRelease().GetInstanceId() != s.curr2 {
 				extra := ""
@@ -204,6 +204,7 @@ func (s *Server) buildPage(ctx context.Context) {
 				if len(r.GetRecord().GetRelease().GetArtists()) > 0 {
 					artist = r.GetRecord().GetRelease().GetArtists()[0].GetName()
 				}
+				s.CtxLog(ctx, fmt.Sprintf("Found here: %v, %v", rec, err))
 				artist2 := "Unknown"
 				if len(rec.GetRecord().GetRelease().GetArtists()) > 0 {
 					artist2 = rec.GetRecord().GetRelease().GetArtists()[0].GetName()
