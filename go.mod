@@ -5,7 +5,7 @@ go 1.23.2
 require (
 	github.com/brotherlogic/filecopier v0.0.0-20250529042502-8cde31d147a7
 	github.com/brotherlogic/goserver v0.0.0-20250123145056-95c6fbb2310a
-	github.com/brotherlogic/recordcleaner v0.0.0-20250531172333-987a63c90a97
+	github.com/brotherlogic/recordcleaner v0.0.0-20250531192710-323e5872bd50
 	github.com/brotherlogic/recordcollection v0.0.0-20250530152523-64f5ce033103
 	github.com/brotherlogic/recordgetter v0.0.0-20250528142755-24985e19b99f
 	github.com/golang/protobuf v1.5.4
@@ -26,7 +26,7 @@ require (
 	github.com/brotherlogic/gobuildslave v0.0.0-20250509192246-2e37750a2b43 // indirect
 	github.com/brotherlogic/godiscogs v0.0.0-20250429182651-404c7473edf8 // indirect
 	github.com/brotherlogic/keystore v0.0.0-20240508161349-814b3200b126 // indirect
-	github.com/brotherlogic/lock v0.0.0-20250531122502-e34bc4fa88ad // indirect
+	github.com/brotherlogic/lock v0.0.0-20250531182720-5ed81a614fce // indirect
 	github.com/brotherlogic/logging v0.0.0-20250531005816-bc33e4867724 // indirect
 	github.com/brotherlogic/monitor v0.0.0-20221025152653-c10877c5f9e6 // indirect
 	github.com/brotherlogic/versionserver v0.0.0-20221025154054-c9bcd41be2f2 // indirect
