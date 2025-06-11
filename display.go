@@ -333,7 +333,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/display.html",
-		OutputServer: "mdisplay",
+		OutputServer: "mdisplay.home",
 		OutputFile:   "/home/simon/index.html",
 		Override:     true,
 	})
@@ -344,7 +344,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/style.css",
-		OutputServer: "mdisplay",
+		OutputServer: "mdisplay.home",
 		OutputFile:   "/home/simon/style.css",
 		Override:     true,
 	})
@@ -355,7 +355,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/normalize.css",
-		OutputServer: "mdisplay",
+		OutputServer: "mdisplay.home",
 		OutputFile:   "/home/simon/normalize.css",
 		Override:     true,
 	})
@@ -366,7 +366,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/image.jpeg",
-		OutputServer: "mdisplay",
+		OutputServer: "mdisplay.home",
 		OutputFile:   "/home/simon/image.jpeg",
 		Override:     true,
 	})
@@ -378,7 +378,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/image2.jpeg",
-		OutputServer: "mdisplay",
+		OutputServer: "mdisplay.home",
 		OutputFile:   "/home/simon/image2.jpeg",
 		Override:     true,
 	})
@@ -456,7 +456,7 @@ func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra 
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/display.html",
-		OutputServer: "mdisplay",
+		OutputServer: "mdisplay.home",
 		OutputFile:   "/home/simon/index.html",
 		Override:     true,
 	})
@@ -467,7 +467,7 @@ func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra 
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/style.css",
-		OutputServer: "mdisplay",
+		OutputServer: "mdisplay.home",
 		OutputFile:   "/home/simon/style.css",
 		Override:     true,
 	})
@@ -478,7 +478,7 @@ func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra 
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/normalize.css",
-		OutputServer: "mdisplay",
+		OutputServer: "mdisplay.home",
 		OutputFile:   "/home/simon/normalize.css",
 		Override:     true,
 	})
@@ -489,7 +489,7 @@ func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra 
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
 		InputServer:  s.Registry.Identifier,
 		InputFile:    "/media/scratch/display/image.jpeg",
-		OutputServer: "mdisplay",
+		OutputServer: "mdisplay.home",
 		OutputFile:   "/home/simon/image.jpeg",
 		Override:     true,
 	})
