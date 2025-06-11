@@ -205,7 +205,7 @@ func (s *Server) buildPage(ctx context.Context) {
 					artist = r.GetRecord().GetRelease().GetArtists()[0].GetName()
 				}
 				s.CtxLog(ctx, fmt.Sprintf("Found here: %v, %v", rec, err))
-				artist2 := "Unknown"
+				artist2 := fmt.Sprintf("%v", err)
 				if len(rec.GetRecord().GetRelease().GetArtists()) > 0 {
 					artist2 = rec.GetRecord().GetRelease().GetArtists()[0].GetName()
 				}
