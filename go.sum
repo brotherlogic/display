@@ -32,8 +32,8 @@ github.com/brotherlogic/recordcleaner v0.0.0-20250711170624-533ca7e83194 h1:GNDu
 github.com/brotherlogic/recordcleaner v0.0.0-20250711170624-533ca7e83194/go.mod h1:iwwN8jVbaH60pBvsZu+OIoOpOsijh1CiZcT9at8/fiE=
 github.com/brotherlogic/recordcollection v0.0.0-20250625165631-0ab7d5811bd2 h1:ngTMN0yJbwB8PG/LN1fr4JtN4L6K4nrh3eHm13Fz6pE=
 github.com/brotherlogic/recordcollection v0.0.0-20250625165631-0ab7d5811bd2/go.mod h1:NnhvH//ryqGgwgMfI9OXqouzrsSQ9VeYoyUuqxhYH+E=
-github.com/brotherlogic/recordgetter v0.0.0-20250707132654-c0d7a0b8c712 h1:8DvXGVr4b+69SPg/AX3cZnDb7VCetb0Tpz7zZYD8Z/k=
-github.com/brotherlogic/recordgetter v0.0.0-20250707132654-c0d7a0b8c712/go.mod h1:jRC2M2Hfit+QPvdq8VHSDBKBrY4RlZzs+ZncKLZwfS4=
+github.com/brotherlogic/recordgetter v0.0.0-20250711170929-04053f29e8d2 h1:BJe8/2h5yExARAQgOH+g0dflt2w2OaL7BafctmG9/O8=
+github.com/brotherlogic/recordgetter v0.0.0-20250711170929-04053f29e8d2/go.mod h1:hy7evZQZkrpc9kVqhrauL2CCvjaDhD+9vqQ3f8ar07g=
 github.com/brotherlogic/versionserver v0.0.0-20221025154054-c9bcd41be2f2 h1:YjFE4Sa+wwbl4yJwJaMQVeA4CMzLIDbbIuSMdsEp5/w=
 github.com/brotherlogic/versionserver v0.0.0-20221025154054-c9bcd41be2f2/go.mod h1:ODrbMDhG+yOp2vie9vE4oaKsKhILDralZMr7PJ4HrJY=
 github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs=
