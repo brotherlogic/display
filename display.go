@@ -145,6 +145,7 @@ func (s *Server) buildPage(ctx context.Context) {
 				}
 			}
 
+			s.CtxLog(ctx, fmt.Sprintf("HERE %v -> %v", toclean, err))
 			if err != nil && status.Code(err) != codes.FailedPrecondition {
 				artist := fmt.Sprintf("%v", err)
 				if len(r.GetRecord().GetRelease().GetArtists()) > 0 {
