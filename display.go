@@ -17,6 +17,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
+	pbcdp "github.com/brotherlogic/cdprocessor/proto"
 	fcpb "github.com/brotherlogic/filecopier/proto"
 	pbg "github.com/brotherlogic/goserver/proto"
 	"github.com/brotherlogic/goserver/utils"
@@ -128,6 +129,22 @@ func (s *Server) buildPage(ctx context.Context) {
 			defer conn2.Close()
 			client2 := pbrc.NewRecordCleanerServiceClient(conn2)
 			toclean, err := client2.GetClean(ctx, &pbrc.GetCleanRequest{})
+
+			if status.Code(err) == codes.ResourceExhausted {
+				conn3, err := s.FDialServer(ctx, "cdprocessor")
+				if err != nil {
+					return
+				}
+				client3 := pbcdp.NewCDProcessorClient(conn3)
+				r, err := client3.GetMissing(ctx, &pbcdp.GetMissingRequest{})
+				if err != nil {
+					return
+				}
+				if r.GetMissing()[0].GetRelease().GetInstanceId() != 0 {
+					toclean = &pbrc.GetCleanResponse{InstanceId: r.GetMissing()[0].GetRelease().GetInstanceId()}
+				}
+			}
+
 			if err != nil && status.Code(err) != codes.FailedPrecondition {
 				artist := fmt.Sprintf("%v", err)
 				if len(r.GetRecord().GetRelease().GetArtists()) > 0 {
