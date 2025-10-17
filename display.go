@@ -142,6 +142,7 @@ func (s *Server) buildPage(ctx context.Context) {
 				}
 				if r.GetMissing()[0].GetRelease().GetInstanceId() != 0 {
 					toclean = &pbrc.GetCleanResponse{InstanceId: r.GetMissing()[0].GetRelease().GetInstanceId()}
+					err = nil
 				}
 			}
 
