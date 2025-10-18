@@ -131,17 +131,18 @@ func (s *Server) buildPage(ctx context.Context) {
 			toclean, err := client2.GetClean(ctx, &pbrc.GetCleanRequest{})
 
 			if status.Code(err) == codes.ResourceExhausted {
-				conn3, err := s.FDialServer(ctx, "cdprocessor")
-				if err != nil {
+				conn3, ierr := s.FDialServer(ctx, "cdprocessor")
+				if ierr != nil {
 					return
 				}
 				client3 := pbcdp.NewCDProcessorClient(conn3)
-				r, err := client3.GetMissing(ctx, &pbcdp.GetMissingRequest{})
-				if err != nil {
+				r, ierr := client3.GetMissing(ctx, &pbcdp.GetMissingRequest{})
+				if ierr != nil {
 					return
 				}
 				if r.GetMissing()[0].GetRelease().GetInstanceId() != 0 {
 					toclean = &pbrc.GetCleanResponse{InstanceId: r.GetMissing()[0].GetRelease().GetInstanceId()}
+					err = nil
 				}
 			}
 
