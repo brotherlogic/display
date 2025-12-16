@@ -92,6 +92,10 @@ func (s *Server) backgroundBuild() {
 		ctx, cancel := utils.ManualContext("display-background", time.Minute*10)
 		defer cancel()
 		s.buildPage(ctx)
+
+		// Grab an image and save it
+		o1, o2 := exec.Command("chromium", "--headless", "--screenshot=~/page.png", "--window-size=800,480", "file:///media/scratch/display/display.html").CombinedOutput()
+		s.CtxLog(ctx, fmt.Sprintf("CHROMIUM OUTPUT: %v %v", string(o1), o2))
 	}()
 }
 
