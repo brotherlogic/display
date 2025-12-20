@@ -100,7 +100,7 @@ func (s *Server) backgroundBuild() {
 		// Copy the file to the output server
 		conn, err := s.FDialSpecificServer(ctx, "filecopier", "cd.home")
 		if err != nil {
-			log.Printf("Unable to dial filecopier: %v", err)
+			s.CtxLog(ctx, fmt.Sprintf("Unable to dial filecopier: %v", err))
 			return
 		}
 		defer conn.Close()
@@ -114,7 +114,7 @@ func (s *Server) backgroundBuild() {
 			Override:     true,
 		})
 		if err != nil {
-			log.Printf("Unable to copy file: %v", err)
+			s.CtxLog(ctx, fmt.Sprintf("Unable to copy file: %v", err))
 		}
 	}()
 }
