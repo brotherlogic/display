@@ -96,6 +96,24 @@ func (s *Server) backgroundBuild() {
 		// Grab an image and save it
 		o1, o2 := exec.Command("chromium", "--headless", "--screenshot=/home/simon/page.jpg", "--window-size=800,480", "file:///media/scratch/display/display.html").CombinedOutput()
 		s.CtxLog(ctx, fmt.Sprintf("CHROMIUM OUTPUT: %v %v", string(o1), o2))
+
+		// Copy the file to the output server
+		conn, err := s.FDialSpecificServer(ctx, "filecopier", "cd.home")
+		if err != nil {
+			log.Printf("Unable to dial filecopier: %v", err)
+			return
+		}
+		fcclient := fcpb.NewFileCopierServiceClient(conn)
+		_, err = fcclient.Copy(ctx, &fcpb.CopyRequest{
+			InputServer:  s.Registry.Identifier,
+			InputFile:    "/home/simon/page.jpg",
+			OutputServer: "cd.home",
+			OutputFile:   "/var/www/html/page.jpg",
+			Override:     true,
+		})
+		if err != nil {
+			log.Printf("Unable to copy file: %v", err)
+		}
 	}()
 }
 
