@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"os/exec"
 	"strings"
@@ -115,6 +116,12 @@ func (s *Server) backgroundBuild() {
 		})
 		if err != nil {
 			s.CtxLog(ctx, fmt.Sprintf("Unable to copy file: %v", err))
+		}
+
+		// Ping the inky frame to run the update
+		_, err = http.Get("http://192.168.68.90/")
+		if err != nil {
+			s.CtxLog(ctx, fmt.Sprintf("Error making request: %v", err))
 		}
 	}()
 }
