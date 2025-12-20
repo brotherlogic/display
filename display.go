@@ -103,6 +103,8 @@ func (s *Server) backgroundBuild() {
 			log.Printf("Unable to dial filecopier: %v", err)
 			return
 		}
+		defer conn.Close()
+
 		fcclient := fcpb.NewFileCopierServiceClient(conn)
 		_, err = fcclient.Copy(ctx, &fcpb.CopyRequest{
 			InputServer:  s.Registry.Identifier,
