@@ -94,6 +94,12 @@ func (s *Server) backgroundBuild() {
 		defer cancel()
 		s.buildPage(ctx)
 
+		prevHash := ""
+		val, err := exec.Command("md5sum", "/home/simon/page.jpg").Output()
+		if err == nil {
+			prevHash = strings.TrimSpace(string(val))
+		}
+
 		// Grab an image and save it
 		o1, o2 := exec.Command("chromium", "--headless", "--screenshot=/home/simon/page.jpg", "--window-size=800,480", "file:///media/scratch/display/display.html").CombinedOutput()
 		s.CtxLog(ctx, fmt.Sprintf("CHROMIUM OUTPUT: %v %v", string(o1), o2))
@@ -118,10 +124,18 @@ func (s *Server) backgroundBuild() {
 			s.CtxLog(ctx, fmt.Sprintf("Unable to copy file: %v", err))
 		}
 
-		// Ping the inky frame to run the update
-		_, err = http.Get("http://192.168.68.90/")
-		if err != nil {
-			s.CtxLog(ctx, fmt.Sprintf("Error making request: %v", err))
+		newHash := ""
+		val, err = exec.Command("md5sum", "/home/simon/page.jpg").Output()
+		if err == nil {
+			newHash = strings.TrimSpace(string(val))
+		}
+
+		if newHash != prevHash {
+			// Ping the inky frame to run the update
+			_, err = http.Get("http://192.168.68.90/")
+			if err != nil {
+				s.CtxLog(ctx, fmt.Sprintf("Error making request: %v", err))
+			}
 		}
 	}()
 }
