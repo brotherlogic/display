@@ -130,7 +130,7 @@ func (s *Server) backgroundBuild() {
 			newHash = strings.TrimSpace(string(val))
 		}
 
-		s.CtxLog(ctx, fmt.Sprintf("Hash changed: %v -> %v", prevHash, newHash))
+		s.CtxLog(ctx, fmt.Sprintf("Hash changed: '%v' -> '%v'", prevHash, newHash))
 		if newHash != prevHash {
 			// Ping the inky frame to run the update
 			_, err = http.Get("http://192.168.68.90/")
