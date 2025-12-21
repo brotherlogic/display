@@ -112,6 +112,7 @@ func (s *Server) backgroundBuild() {
 		}
 		defer conn.Close()
 
+		delete := false
 		fcclient := fcpb.NewFileCopierServiceClient(conn)
 		_, err = fcclient.Copy(ctx, &fcpb.CopyRequest{
 			InputServer:  s.Registry.Identifier,
@@ -121,6 +122,7 @@ func (s *Server) backgroundBuild() {
 			Override:     true,
 		})
 		if err != nil {
+			delete = true
 			s.CtxLog(ctx, fmt.Sprintf("Unable to copy file: %v", err))
 		}
 
@@ -137,6 +139,11 @@ func (s *Server) backgroundBuild() {
 			_, err = http.Get("http://192.168.68.90/")
 			if err != nil {
 				s.CtxLog(ctx, fmt.Sprintf("Error making request: %v", err))
+			}
+
+			if delete || err != nil {
+				s.CtxLog(ctx, fmt.Sprintf("Deletiing because %v or %v", delete, err))
+				os.Remove("/home/simon/page.jpg")
 			}
 		}
 	}()
