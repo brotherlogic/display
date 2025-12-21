@@ -92,10 +92,10 @@ func (s *Server) backgroundBuild() {
 	go func() {
 		ctx, cancel := utils.ManualContext("display-background", time.Minute*10)
 		defer cancel()
-		s.buildPage(ctx)
+		value := s.buildPage(ctx)
 
 		prevHash := ""
-		val, err := exec.Command("md5sum", "/home/simon/page.jpg").Output()
+		val, err := exec.Command("cat", "/home/simon/value").Output()
 		if err == nil {
 			prevHash = strings.TrimSpace(string(val))
 		}
@@ -126,14 +126,8 @@ func (s *Server) backgroundBuild() {
 			s.CtxLog(ctx, fmt.Sprintf("Unable to copy file: %v", err))
 		}
 
-		newHash := ""
-		val, err = exec.Command("md5sum", "/home/simon/page.jpg").Output()
-		if err == nil {
-			newHash = strings.TrimSpace(string(val))
-		}
-
-		if newHash != prevHash {
-			s.CtxLog(ctx, fmt.Sprintf("Hash changed: '%v' -> '%v'", prevHash, newHash))
+		if value != prevHash {
+			s.CtxLog(ctx, fmt.Sprintf("Hash changed: '%v' -> '%v'", prevHash, value))
 
 			// Ping the inky frame to run the update
 			_, err = http.Get("http://192.168.68.90/")
@@ -141,9 +135,11 @@ func (s *Server) backgroundBuild() {
 				s.CtxLog(ctx, fmt.Sprintf("Error making request: %v", err))
 			}
 
-			if delete || err != nil {
-				s.CtxLog(ctx, fmt.Sprintf("Deletiing because %v or %v", delete, err))
-				os.Remove("/home/simon/page.jpg")
+			if !delete && err == nil {
+				err := os.WriteFile("/home/simon/value", []byte(value), 0644)
+				if err != nil {
+					s.CtxLog(ctx, fmt.Sprintf("Unable to write value: %v", err))
+				}
 			}
 		}
 	}()
@@ -156,8 +152,9 @@ func convertArtist(artist string) string {
 	return artist
 }
 
-func (s *Server) buildPage(ctx context.Context) {
+func (s *Server) buildPage(ctx context.Context) string {
 	conn, err := s.FDialServer(ctx, "recordgetter")
+	value := ""
 
 	if err != nil {
 		activity.With(prometheus.Labels{"message": fmt.Sprintf("DIAL: %v", err)}).Inc()
@@ -179,6 +176,7 @@ func (s *Server) buildPage(ctx context.Context) {
 		}
 
 		if err == nil {
+			value += fmt.Sprintf("%v", r.GetRecord().GetRelease().GetInstanceId())
 			conn2, err := s.FDialServer(ctx, "recordcleaner")
 			defer conn2.Close()
 			client2 := pbrc.NewRecordCleanerServiceClient(conn2)
@@ -187,12 +185,12 @@ func (s *Server) buildPage(ctx context.Context) {
 			if status.Code(err) == codes.ResourceExhausted {
 				conn3, ierr := s.FDialServer(ctx, "cdprocessor")
 				if ierr != nil {
-					return
+					return ""
 				}
 				client3 := pbcdp.NewCDProcessorClient(conn3)
 				r, ierr := client3.GetMissing(ctx, &pbcdp.GetMissingRequest{})
 				if ierr != nil {
-					return
+					return ""
 				}
 				if r.GetMissing()[0].GetRelease().GetInstanceId() != 0 {
 					toclean = &pbrc.GetCleanResponse{InstanceId: r.GetMissing()[0].GetRelease().GetInstanceId()}
@@ -236,21 +234,23 @@ func (s *Server) buildPage(ctx context.Context) {
 					s.CtxLog(ctx, fmt.Sprintf("Bad build: %v", err))
 				}
 				s.curr2 = -1
-				return
+				return value
 			}
 
 			rec := &rcpb.GetRecordResponse{}
 			if toclean.GetInstanceId() != 0 {
 				conn3, err := s.FDialServer(ctx, "recordcollection")
 				if err != nil {
-					return
+					return ""
 				}
 				defer conn3.Close()
 				client3 := rcpb.NewRecordCollectionServiceClient(conn3)
 				rec, err = client3.GetRecord(ctx, &rcpb.GetRecordRequest{InstanceId: toclean.GetInstanceId()})
 				if err != nil {
-					return
+					return ""
 				}
+
+				value += fmt.Sprintf("-%v", rec.GetRecord().GetRelease().GetInstanceId())
 			}
 
 			if r.GetRecord().GetRelease().GetInstanceId() != s.curr || rec.GetRecord().GetRelease().GetInstanceId() != s.curr2 {
@@ -304,6 +304,8 @@ func (s *Server) buildPage(ctx context.Context) {
 			}
 		}
 	}
+
+	return value
 }
 
 func (s *Server) handler(ctx context.Context, title, artist, image, extra string, id int32, title2, artist2, image2 string) error {
