@@ -104,7 +104,7 @@ h1 {
 	text-transform: uppercase;
 }
 
-.artwork {
+/*.artwork {
 	background-image: url("<?php echo $trackInfo['albumArt']; ?>");
 	background-position: bottom;
 	background-repeat: no-repeat;
@@ -115,7 +115,7 @@ h1 {
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
-}
+}*/
 
 .art_image {
 	width: 500px;
