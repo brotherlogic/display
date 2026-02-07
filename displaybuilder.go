@@ -350,19 +350,7 @@ func buildStyle() {
 			font-weight: normal;
 			text-transform: uppercase;
 		}
-		
-		.artwork {
-			background-image: url("<?php echo $trackInfo['albumArt']; ?>");
-			background-position: bottom;
-			background-repeat: no-repeat;
-			background-size: 120%;
-			opacity: .5;
-			filter: blur(80px);
-			-webkit-filter: blur(80px);
-			height: 100%;
-			width: 100%;
-			overflow: hidden;
-		}
+	
 		.art_image {
 			width: 150px;
 			border-radius: 6px;
