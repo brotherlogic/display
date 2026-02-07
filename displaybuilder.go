@@ -113,7 +113,6 @@ func buildStyleSingle() {
 			position: relative;
 			z-index: 2;
 			margin-top: 30px;
-			box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.7);
 		}
 		
 		#main {
@@ -235,7 +234,6 @@ func buildStyleSingle() {
 			margin-left: 16px;
 			margin-bottom: 10px;
 			border-radius: 6px;
-			box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.7);
 		}`
 
 	os.Create("/media/scratch/display/style.css")
@@ -357,7 +355,6 @@ func buildStyle() {
 			position: relative;
 			z-index: 2;
 			margin-top: 30px;
-			box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.7);
 		}
 		
 		#main {
@@ -479,7 +476,6 @@ func buildStyle() {
 			margin-left: 16px;
 			margin-bottom: 10px;
 			border-radius: 6px;
-			box-shadow: 0 0 10px 4px rgba(0, 0, 0, 0.7);
 		}`
 
 	os.Create("/media/scratch/display/style.css")
