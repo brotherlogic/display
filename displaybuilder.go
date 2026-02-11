@@ -388,7 +388,6 @@ func buildStyle() {
 			color: #8D9194;
 			font-weight: 100;
 			text-align: center;
-			font-style: italic;
 			overflow: hidden;
 			display: -webkit-box;
 			-webkit-line-clamp: 1;
