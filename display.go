@@ -362,16 +362,22 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 
 	os.MkdirAll("/media/scratch/display/", 0777)
 	os.Create("/media/scratch/display/display.html")
-	f, _ := os.OpenFile("/media/scratch/display/display.html", os.O_WRONLY, 0777)
+	f, err := os.OpenFile("/media/scratch/display/display.html", os.O_WRONLY, 0777)
+	if err != nil {
+		return err
+	}
 	defer f.Close()
 
-	t.Execute(f, &temp{
+	err = t.Execute(f, &temp{
 		Title:   title,
 		Artist:  strings.TrimSpace(convertArtist(artist)),
 		Image:   image,
 		Extra:   extra,
 		Title2:  title2,
 		Artist2: strings.TrimSpace(convertArtist(artist2))})
+	if err != nil {
+		return err
+	}
 	buildStyle()
 	buildCssNorm()
 
@@ -498,14 +504,20 @@ func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra 
 
 	os.MkdirAll("/media/scratch/display/", 0777)
 	os.Create("/media/scratch/display/display.html")
-	f, _ := os.OpenFile("/media/scratch/display/display.html", os.O_WRONLY, 0777)
+	f, err := os.OpenFile("/media/scratch/display/display.html", os.O_WRONLY, 0777)
+	if err != nil {
+		return err
+	}
 	defer f.Close()
 
-	t.Execute(f, &temp{
+	err = t.Execute(f, &temp{
 		Title:  title,
 		Artist: strings.TrimSpace(convertArtist(artist)),
 		Image:  image,
 		Extra:  extra})
+	if err != nil {
+		return err
+	}
 	buildStyleSingle()
 	buildCssNorm()
 
