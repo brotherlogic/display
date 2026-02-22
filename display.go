@@ -17,6 +17,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"sync/atomic"
 
 	pbcdp "github.com/brotherlogic/cdprocessor/proto"
 	fcpb "github.com/brotherlogic/filecopier/proto"
@@ -37,8 +38,9 @@ var (
 // Server main server type
 type Server struct {
 	*goserver.GoServer
-	curr  int32
-	curr2 int32
+	curr    int32
+	curr2   int32
+	running int32
 }
 
 // Init builds the server
@@ -89,7 +91,11 @@ type temp struct {
 }
 
 func (s *Server) backgroundBuild() {
+	if !atomic.CompareAndSwapInt32(&s.running, 0, 1) {
+		return
+	}
 	go func() {
+		defer atomic.StoreInt32(&s.running, 0)
 		ctx, cancel := utils.ManualContext("display-background", time.Minute*10)
 		defer cancel()
 		value := s.buildPage(ctx)
@@ -157,7 +163,7 @@ func (s *Server) buildPage(ctx context.Context) string {
 	value := ""
 
 	if err != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("DIAL: %v", err)}).Inc()
+		activity.With(prometheus.Labels{"message": "DIAL_ERROR"}).Inc()
 	}
 
 	if err == nil {
@@ -168,7 +174,7 @@ func (s *Server) buildPage(ctx context.Context) string {
 		r, err = client.GetRecord(ctx, &pbrg.GetRecordRequest{Refresh: true})
 
 		if err != nil {
-			activity.With(prometheus.Labels{"message": fmt.Sprintf("GET_RECORD: %v", err)}).Inc()
+			activity.With(prometheus.Labels{"message": "GET_RECORD_ERROR"}).Inc()
 		}
 
 		if status.Convert(err).Code() == codes.FailedPrecondition {
@@ -178,6 +184,9 @@ func (s *Server) buildPage(ctx context.Context) string {
 		if err == nil {
 			value += fmt.Sprintf("%v", r.GetRecord().GetRelease().GetInstanceId())
 			conn2, err := s.FDialServer(ctx, "recordcleaner")
+			if err != nil {
+				return ""
+			}
 			defer conn2.Close()
 			client2 := pbrc.NewRecordCleanerServiceClient(conn2)
 			toclean, err := client2.GetClean(ctx, &pbrc.GetCleanRequest{})
@@ -187,6 +196,7 @@ func (s *Server) buildPage(ctx context.Context) string {
 				if ierr != nil {
 					return ""
 				}
+				defer conn3.Close()
 				client3 := pbcdp.NewCDProcessorClient(conn3)
 				r, ierr := client3.GetMissing(ctx, &pbcdp.GetMissingRequest{})
 				if ierr != nil {
@@ -361,8 +371,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	}
 
 	os.MkdirAll("/media/scratch/display/", 0777)
-	os.Create("/media/scratch/display/display.html")
-	f, err := os.OpenFile("/media/scratch/display/display.html", os.O_WRONLY, 0777)
+	f, err := os.OpenFile("/media/scratch/display/display.html", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0777)
 	if err != nil {
 		return err
 	}
@@ -383,29 +392,29 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 
 	err = exec.Command("wget", image, "-O", "/media/scratch/display/image-raw.jpeg").Run()
 	if err != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("DOWNLOAD: %v", err)}).Inc()
+		activity.With(prometheus.Labels{"message": "DOWNLOAD_ERROR"}).Inc()
 		return fmt.Errorf("Bad download: %v", err)
 	}
 	output, err2 := exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw.jpeg", "-resize", "300x300", "/media/scratch/display/image.jpeg").CombinedOutput()
 	if err2 != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("CONVERT: %v", err2)}).Inc()
+		activity.With(prometheus.Labels{"message": "CONVERT_ERROR"}).Inc()
 		return fmt.Errorf("Bad convert of (%v) %v: %v -> %v", id, image, err2, string(output))
 	}
 
 	err = exec.Command("wget", image2, "-O", "/media/scratch/display/image-raw2.jpeg").Run()
 	if err != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("DOWNLOAD: %v", err)}).Inc()
+		activity.With(prometheus.Labels{"message": "DOWNLOAD_ERROR"}).Inc()
 		return fmt.Errorf("Bad download: %v", err)
 	}
 	output, err2 = exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw2.jpeg", "-resize", "300x300", "/media/scratch/display/image2.jpeg").CombinedOutput()
 	if err2 != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("CONVERT: %v", err2)}).Inc()
+		activity.With(prometheus.Labels{"message": "CONVERT_ERROR"}).Inc()
 		return fmt.Errorf("Bad convert of (%v) %v: %v -> %v", id, image, err2, string(output))
 	}
 
 	conn, err := s.FDialServer(ctx, "filecopier")
 	if err != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("DIAL_COPIER: %v", err)}).Inc()
+		activity.With(prometheus.Labels{"message": "DIAL_COPIER_ERROR"}).Inc()
 		return err
 	}
 	defer conn.Close()
@@ -419,7 +428,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		Override:     true,
 	})
 	if err != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_HTML: %v", err)}).Inc()
+		activity.With(prometheus.Labels{"message": "COPY_HTML_ERROR"}).Inc()
 		return err
 	}
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
@@ -430,7 +439,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		Override:     true,
 	})
 	if err != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_CSS: %v", err)}).Inc()
+		activity.With(prometheus.Labels{"message": "COPY_CSS_ERROR"}).Inc()
 		return err
 	}
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
@@ -441,7 +450,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		Override:     true,
 	})
 	if err != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_NORM: %v", err)}).Inc()
+		activity.With(prometheus.Labels{"message": "COPY_NORM_ERROR"}).Inc()
 		return err
 	}
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
@@ -452,7 +461,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		Override:     true,
 	})
 	if err != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_IMAGE: %v", err)}).Inc()
+		activity.With(prometheus.Labels{"message": "COPY_IMAGE_ERROR"}).Inc()
 		return err
 	}
 
@@ -464,7 +473,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 		Override:     true,
 	})
 	if err != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_IMAGE: %v", err)}).Inc()
+		activity.With(prometheus.Labels{"message": "COPY_IMAGE_ERROR"}).Inc()
 		return err
 	}
 
@@ -503,8 +512,7 @@ func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra 
 	}
 
 	os.MkdirAll("/media/scratch/display/", 0777)
-	os.Create("/media/scratch/display/display.html")
-	f, err := os.OpenFile("/media/scratch/display/display.html", os.O_WRONLY, 0777)
+	f, err := os.OpenFile("/media/scratch/display/display.html", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0777)
 	if err != nil {
 		return err
 	}
@@ -523,18 +531,18 @@ func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra 
 
 	err = exec.Command("curl", image, "-o", "/media/scratch/display/image-raw.jpeg").Run()
 	if err != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("DOWNLOAD: %v", err)}).Inc()
+		activity.With(prometheus.Labels{"message": "DOWNLOAD_ERROR"}).Inc()
 		return fmt.Errorf("Bad download: %v", err)
 	}
 	output, err2 := exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw.jpeg", "-resize", "300x300", "/media/scratch/display/image.jpeg").CombinedOutput()
 	if err2 != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("CONVERT: %v", err2)}).Inc()
+		activity.With(prometheus.Labels{"message": "CONVERT_ERROR"}).Inc()
 		return fmt.Errorf("Bad convert of (%v) %v: %v -> %v", id, image, err2, string(output))
 	}
 
 	conn, err := s.FDialServer(ctx, "filecopier")
 	if err != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("DIAL_COPIER: %v", err)}).Inc()
+		activity.With(prometheus.Labels{"message": "DIAL_COPIER_ERROR"}).Inc()
 		return err
 	}
 	defer conn.Close()
@@ -548,7 +556,7 @@ func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra 
 		Override:     true,
 	})
 	if err != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_HTML: %v", err)}).Inc()
+		activity.With(prometheus.Labels{"message": "COPY_HTML_ERROR"}).Inc()
 		return err
 	}
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
@@ -559,7 +567,7 @@ func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra 
 		Override:     true,
 	})
 	if err != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_CSS: %v", err)}).Inc()
+		activity.With(prometheus.Labels{"message": "COPY_CSS_ERROR"}).Inc()
 		return err
 	}
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
@@ -570,7 +578,7 @@ func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra 
 		Override:     true,
 	})
 	if err != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_NORM: %v", err)}).Inc()
+		activity.With(prometheus.Labels{"message": "COPY_NORM_ERROR"}).Inc()
 		return err
 	}
 	_, err = fc.Copy(ctx, &fcpb.CopyRequest{
@@ -581,7 +589,7 @@ func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra 
 		Override:     true,
 	})
 	if err != nil {
-		activity.With(prometheus.Labels{"message": fmt.Sprintf("COPY_IMAGE: %v", err)}).Inc()
+		activity.With(prometheus.Labels{"message": "COPY_IMAGE_ERROR"}).Inc()
 		return err
 	}
 

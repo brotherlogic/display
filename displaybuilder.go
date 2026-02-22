@@ -236,8 +236,7 @@ func buildStyleSingle() {
 			border-radius: 6px;
 		}`
 
-	os.Create("/media/scratch/display/style.css")
-	f, _ := os.OpenFile("/media/scratch/display/style.css", os.O_WRONLY, 0777)
+	f, _ := os.OpenFile("/media/scratch/display/style.css", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0777)
 	defer f.Close()
 
 	f.WriteString(data)
@@ -477,8 +476,7 @@ func buildStyle() {
 			border-radius: 6px;
 		}`
 
-	os.Create("/media/scratch/display/style.css")
-	f, _ := os.OpenFile("/media/scratch/display/style.css", os.O_WRONLY, 0777)
+	f, _ := os.OpenFile("/media/scratch/display/style.css", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0777)
 	defer f.Close()
 
 	f.WriteString(data)
@@ -835,8 +833,7 @@ func buildCssNorm() {
 		display: none;
 	  }`
 
-	os.Create("/media/scratch/display/normalize.css")
-	f, _ := os.OpenFile("/media/scratch/display/normalize.css", os.O_WRONLY, 0777)
+	f, _ := os.OpenFile("/media/scratch/display/normalize.css", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0777)
 	defer f.Close()
 
 	f.WriteString(data)
