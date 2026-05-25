@@ -38,17 +38,17 @@ var (
 // Server main server type
 type Server struct {
 	*goserver.GoServer
-	curr    int32
-	curr2   int32
-	running int32
+	curr    int64
+	curr2   int64
+	running int64
 }
 
 // Init builds the server
 func Init() *Server {
 	s := &Server{
 		GoServer: &goserver.GoServer{},
-		curr:     int32(-1),
-		curr2:    int32(-1),
+		curr:     int64(-1),
+		curr2:    int64(-1),
 	}
 	return s
 }
@@ -91,11 +91,11 @@ type temp struct {
 }
 
 func (s *Server) backgroundBuild() {
-	if !atomic.CompareAndSwapInt32(&s.running, 0, 1) {
+	if !atomic.CompareAndSwapInt64(&s.running, 0, 1) {
 		return
 	}
 	go func() {
-		defer atomic.StoreInt32(&s.running, 0)
+		defer atomic.StoreInt64(&s.running, 0)
 		ctx, cancel := utils.ManualContext("display-background", time.Minute*10)
 		defer cancel()
 		value := s.buildPage(ctx)
@@ -318,7 +318,7 @@ func (s *Server) buildPage(ctx context.Context) string {
 	return value
 }
 
-func (s *Server) handler(ctx context.Context, title, artist, image, extra string, id int32, title2, artist2, image2 string) error {
+func (s *Server) handler(ctx context.Context, title, artist, image, extra string, id int64, title2, artist2, image2 string) error {
 	t := template.New("page")
 	t, err := t.Parse(`<html>
 	<link rel="stylesheet" href="normalize.css">
@@ -480,7 +480,7 @@ func (s *Server) handler(ctx context.Context, title, artist, image, extra string
 	activity.With(prometheus.Labels{"message": "SUCCESS"}).Inc()
 	return nil
 }
-func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra string, id int32) error {
+func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra string, id int64) error {
 	t := template.New("page")
 	t, err := t.Parse(`<html>
 	<link rel="stylesheet" href="normalize.css">
