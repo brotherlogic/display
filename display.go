@@ -40,7 +40,7 @@ type Server struct {
 	*goserver.GoServer
 	curr    int64
 	curr2   int64
-	running int64
+	running atomic.Int64
 }
 
 // Init builds the server
@@ -91,11 +91,11 @@ type temp struct {
 }
 
 func (s *Server) backgroundBuild() {
-	if !atomic.CompareAndSwapInt64(&s.running, 0, 1) {
+	if !s.running.CompareAndSwap(0, 1) {
 		return
 	}
 	go func() {
-		defer atomic.StoreInt64(&s.running, 0)
+		defer s.running.Store(0)
 		ctx, cancel := utils.ManualContext("display-background", time.Minute*10)
 		defer cancel()
 		value := s.buildPage(ctx)
