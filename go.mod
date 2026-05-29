@@ -6,8 +6,8 @@ require (
 	github.com/brotherlogic/cdprocessor v0.0.0-20260319023947-8c770e88f6a4
 	github.com/brotherlogic/filecopier v0.0.0-20260319021024-ffe03a41d401
 	github.com/brotherlogic/goserver v0.0.0-20260125051706-82df7bec125f
-	github.com/brotherlogic/recordcleaner v0.0.0-20260524222941-37b80b3d2c51
-	github.com/brotherlogic/recordcollection v0.0.0-20260524022106-651e728479ca
+	github.com/brotherlogic/recordcleaner v0.0.0-20260527001741-38fe636fb242
+	github.com/brotherlogic/recordcollection v0.0.0-20260528003522-b2a48b69171a
 	github.com/brotherlogic/recordgetter v0.0.0-20260520152528-86e497cd44d1
 	github.com/brotherlogic/recordsorganiser v0.0.0-20260523220828-474e98038b45
 	github.com/golang/protobuf v1.5.4
@@ -36,11 +36,11 @@ require (
 	github.com/mitchellh/go-ps v1.0.0 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
-	github.com/prometheus/common v0.67.5 // indirect
+	github.com/prometheus/common v0.68.0 // indirect
 	github.com/prometheus/procfs v0.20.1 // indirect
 	github.com/struCoder/pidusage v0.2.1 // indirect
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
 	golang.org/x/sys v0.45.0 // indirect
 	golang.org/x/text v0.37.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20260523011958-0a33c5d7ca68 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260526163538-3dc84a4a5aaa // indirect
 )
