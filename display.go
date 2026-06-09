@@ -107,7 +107,7 @@ func (s *Server) backgroundBuild() {
 		}
 
 		// Grab an image and save it
-		o1, o2 := exec.Command("chromium", "--headless", "--enable-features=OverlayScrollbar", "--disable-infobars", "--screenshot=/home/simon/page.jpg", "--window-size=800,480", "file:///media/scratch/display/display.html").CombinedOutput()
+		o1, o2 := exec.Command("chromium", "--headless", "--hide-scrollbars", "--enable-features=OverlayScrollbar", "--disable-infobars", "--screenshot=/home/simon/page.jpg", "--window-size=800,480", "file:///media/scratch/display/display.html").CombinedOutput()
 		s.CtxLog(ctx, fmt.Sprintf("CHROMIUM OUTPUT: %v %v", string(o1), o2))
 
 		// Copy the file to the output server
