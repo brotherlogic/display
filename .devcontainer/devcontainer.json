@@ -1,24 +1,57 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/go .
 {
-	"name": "Go",
+	"name": "Display",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/go:2-1.25-trixie",
-	"features": {
-	}
-
+	"image": "mcr.microsoft.com/devcontainers/go:1.26-trixie",
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
-
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"installOhMyZsh": true,
+			"installZsh": true,
+			"configureZshAsDefaultShell": true
+		},
+		"ghcr.io/devcontainers-extra/features/protoc:1": {},
+		"ghcr.io/siri404/devcontainer-ai-features/gemini-cli:1": {},
+		"ghcr.io/devcontainers/features/github-cli:1": {
+			"version": "latest",
+			"installDirectlyFromGitHubRelease": true
+		},
+	},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
-
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "go version",
-
+	"postCreateCommand": "./postCreate.sh",
+	"postStartCommand": "tmux -u new-session -d -s default-vscode || true",
+"initializeCommand": "cat ~/.seraphine-automation > .devcontainer/.env.auth",
 	// Configure tool-specific properties.
 	// "customizations": {},
-
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
+    "containerEnv": {
+	"DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+		"GH_GIT_PROTOCOL": "ssh",
+		"LANG": "en_US.UTF-8",
+		"LC_ALL": "en_US.UTF-8",
+		"TZ": "America/Los_Angeles"
+	},
+	"runArgs": [
+		"--network=host",
+		"--security-opt",
+	    "label=disable",
+	    		"--env-file",
+		"${localWorkspaceFolder}/.devcontainer/.env.auth"
+	],
+	"mounts": [
+		{
+			"source": "${localEnv:HOME}/.ssh",
+			"target": "/home/vscode/.ssh", // Adjust "vscode" to your container's non-root user (e.g., "node", "user")
+		    "type": "bind"
+		},
+	    		"source=/var/run/dbus,target=/var/run/dbus,type=bind",
+	    "source=/run/user,target=/run/user,type=bind",
+	    	    "source=${localEnv:HOME}/.gemini,target=/home/vscode/.gemini,type=bind",
+	    
+	],
+	"workspaceFolder": "/workspaces/display"
 }
