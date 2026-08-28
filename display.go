@@ -210,7 +210,7 @@ func (s *Server) buildPage(ctx context.Context) string {
 
 			s.CtxLog(ctx, fmt.Sprintf("HERE %v -> %v", toclean, err))
 			if err != nil && status.Code(err) != codes.FailedPrecondition {
-				artist := fmt.Sprintf("%v", err)
+				artist := "Unknown"
 				if len(r.GetRecord().GetRelease().GetArtists()) > 0 {
 					artist = r.GetRecord().GetRelease().GetArtists()[0].GetName()
 				}
@@ -496,7 +496,7 @@ func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra 
 			<div class="artwork"></div>
 			<section id="main">
 				<center>
-				<img class="art_image" src="image.jpeg" width="300" height="300">
+				<img class="art_image" src="image.jpeg" width="250" height="250">
 				<div class="text">
 					<div class="artist">{{.Artist}}</div>
 					<div class="album">{{.Title}}</div>
@@ -529,12 +529,12 @@ func (s *Server) handlerSingle(ctx context.Context, title, artist, image, extra 
 	buildStyleSingle()
 	buildCssNorm()
 
-	err = exec.Command("curl", image, "-o", "/media/scratch/display/image-raw.jpeg").Run()
+	err = exec.Command("curl", "-s", "-L", image, "-o", "/media/scratch/display/image-raw.jpeg").Run()
 	if err != nil {
 		activity.With(prometheus.Labels{"message": "DOWNLOAD_ERROR"}).Inc()
 		return fmt.Errorf("Bad download: %v", err)
 	}
-	output, err2 := exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw.jpeg", "-resize", "300x300", "/media/scratch/display/image.jpeg").CombinedOutput()
+	output, err2 := exec.Command("/usr/bin/convert", "/media/scratch/display/image-raw.jpeg", "-resize", "250x250", "/media/scratch/display/image.jpeg").CombinedOutput()
 	if err2 != nil {
 		activity.With(prometheus.Labels{"message": "CONVERT_ERROR"}).Inc()
 		return fmt.Errorf("Bad convert of (%v) %v: %v -> %v", id, image, err2, string(output))
