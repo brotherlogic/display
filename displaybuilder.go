@@ -9,6 +9,7 @@ func buildStyleSingle() {
 				 url('proximanova-regular.woff2') format('woff2');
 			font-weight: normal;
 			font-style: normal;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -17,6 +18,7 @@ func buildStyleSingle() {
 				 url('proximanova-italic.woff2') format('woff2');
 			font-weight: normal;
 			font-style: italic;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -25,6 +27,7 @@ func buildStyleSingle() {
 				 url('proximanova-bold.woff2') format('woff2');
 			font-weight: bold;
 			font-style: normal;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -33,6 +36,7 @@ func buildStyleSingle() {
 				 url('proximanova-boldit.woff2') format('woff2');
 			font-weight: bold;
 			font-style: italic;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -40,6 +44,7 @@ func buildStyleSingle() {
 			src: url('proximanova-light.woff') format('woff'),
 				 url('proximanova-light.woff2') format('woff2');
 			font-weight: 300;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -48,6 +53,7 @@ func buildStyleSingle() {
 				 url('mp.woff2') format('woff2');
 			font-weight: normal;
 			font-style: normal;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -56,6 +62,7 @@ func buildStyleSingle() {
 				 url('mp-italic.woff2') format('woff2');
 			font-weight: normal;
 			font-style: italic;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -64,6 +71,7 @@ func buildStyleSingle() {
 				 url('mp-bold.woff2') format('woff2');
 			font-weight: bold;
 			font-style: normal;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -71,6 +79,7 @@ func buildStyleSingle() {
 			src: url('mp-boldit.woff') format('woff');
 			font-weight: bold;
 			font-style: italic;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -79,6 +88,7 @@ func buildStyleSingle() {
 				 url('mp-semibold.woff2') format('woff2');
 			font-weight: 600;
 			font-style: normal;
+			font-display: swap;
 		}
 		
 		body {
@@ -88,7 +98,7 @@ func buildStyleSingle() {
 		}
 		
 		#container {
-			width: 400px;
+			width: 800px;
 			height: 480px;
 			margin: 0px auto;
 			border: 1px solid #000;
@@ -108,11 +118,12 @@ func buildStyleSingle() {
 			text-transform: uppercase;
 		}
 		.art_image {
-			width: 300px;
+			width: 250px;
+			height: 250px;
 			border-radius: 6px;
 			position: relative;
 			z-index: 2;
-			margin-top: 30px;
+			margin-top: 0px;
 		}
 		
 		#main {
@@ -120,6 +131,7 @@ func buildStyleSingle() {
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
+			width: 760px;
 		}
 		
 		.track {
@@ -136,9 +148,14 @@ func buildStyleSingle() {
 		
 		.artist {
 			font-size: 28px;
+			margin-top: 8px;
 			margin-bottom: 4px;
 			color: #F4F4F4;
 			text-align: center;
+			overflow: hidden;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
 		}
 		
 		.album {
@@ -155,11 +172,15 @@ func buildStyleSingle() {
 		
 		.number {
 			font-weight: 100;
-			margin-top: 7px;
+			margin-top: 6px;
 			font-size: 13px;
 			text-transform: uppercase;
 			color: #8D9194;
 			text-align: center;
+			overflow: hidden;
+			display: -webkit-box;
+			-webkit-line-clamp: 1;
+			-webkit-box-orient: vertical;
 		}
 		
 		.user {
@@ -249,6 +270,7 @@ func buildStyle() {
 				 url('proximanova-regular.woff2') format('woff2');
 			font-weight: normal;
 			font-style: normal;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -257,6 +279,7 @@ func buildStyle() {
 				 url('proximanova-italic.woff2') format('woff2');
 			font-weight: normal;
 			font-style: italic;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -265,6 +288,7 @@ func buildStyle() {
 				 url('proximanova-bold.woff2') format('woff2');
 			font-weight: bold;
 			font-style: normal;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -273,6 +297,7 @@ func buildStyle() {
 				 url('proximanova-boldit.woff2') format('woff2');
 			font-weight: bold;
 			font-style: italic;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -280,6 +305,7 @@ func buildStyle() {
 			src: url('proximanova-light.woff') format('woff'),
 				 url('proximanova-light.woff2') format('woff2');
 			font-weight: 300;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -288,6 +314,7 @@ func buildStyle() {
 				 url('mp.woff2') format('woff2');
 			font-weight: normal;
 			font-style: normal;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -296,6 +323,7 @@ func buildStyle() {
 				 url('mp-italic.woff2') format('woff2');
 			font-weight: normal;
 			font-style: italic;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -304,6 +332,7 @@ func buildStyle() {
 				 url('mp-bold.woff2') format('woff2');
 			font-weight: bold;
 			font-style: normal;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -311,6 +340,7 @@ func buildStyle() {
 			src: url('mp-boldit.woff') format('woff');
 			font-weight: bold;
 			font-style: italic;
+			font-display: swap;
 		}
 		
 		@font-face {
@@ -319,6 +349,7 @@ func buildStyle() {
 				 url('mp-semibold.woff2') format('woff2');
 			font-weight: 600;
 			font-style: normal;
+			font-display: swap;
 		}
 		
 		body {
