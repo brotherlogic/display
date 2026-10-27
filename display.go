@@ -208,7 +208,6 @@ func (s *Server) buildPage(ctx context.Context) string {
 				}
 			}
 
-			s.CtxLog(ctx, fmt.Sprintf("HERE %v -> %v", toclean, err))
 			if err != nil && status.Code(err) != codes.FailedPrecondition {
 				artist := "Unknown"
 				if len(r.GetRecord().GetRelease().GetArtists()) > 0 {
