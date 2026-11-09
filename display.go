@@ -139,6 +139,8 @@ func (s *Server) backgroundBuild() {
 			_, err = http.Get("http://192.168.68.90/")
 			if err != nil {
 				s.CtxLog(ctx, fmt.Sprintf("Error making request: %v", err))
+			} else {
+			s.CtxLog(ctx, "Ping win")
 			}
 
 			if !delete && err == nil {
@@ -148,6 +150,7 @@ func (s *Server) backgroundBuild() {
 				}
 			}
 		}
+		s.CtxLog(ctx, "Skipping Ping")
 	}()
 }
 
@@ -208,7 +211,6 @@ func (s *Server) buildPage(ctx context.Context) string {
 				}
 			}
 
-			s.CtxLog(ctx, fmt.Sprintf("HERE %v -> %v", toclean, err))
 			if err != nil && status.Code(err) != codes.FailedPrecondition {
 				artist := "Unknown"
 				if len(r.GetRecord().GetRelease().GetArtists()) > 0 {
